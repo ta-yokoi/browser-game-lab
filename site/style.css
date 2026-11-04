@@ -1,3 +1,25 @@
+.album-button { display: block; margin: 20px 0 0 auto; border: 1px solid #c5d2b8; border-radius: 30px; padding: 14px 22px; color: #42684d; background: #fffdf8; box-shadow: 0 4px 14px #42684d12; font-weight: 700; }
+.sticker-album { width: min(920px, calc(100% - 24px)); max-height: 88vh; border: 1px solid #d5ddca; border-radius: 28px; padding: 32px; color: #3f4c43; background: #faf7ef; box-shadow: 0 24px 90px #20322135; }
+.sticker-album::backdrop { background: #26382b80; backdrop-filter: blur(5px); }
+.sticker-album h2 { margin: 10px 40px 18px 0; font-size: clamp(20px, 4vw, 30px); }
+.album-close { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border: 1px solid #d5ddca; border-radius: 50%; background: #fffdf8; color: #42684d; font-size: 26px; }
+.album-intro { line-height: 1.9; font-size: 14px; }
+.album-intro strong { color: #42684d; font-size: 22px; }
+.album-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.album-card { text-align: center; padding: 22px 12px; border: 1px solid #e0dfd2; border-radius: 20px; background: #fffefa; }
+.album-card h3 { font-size: 15px; margin: 16px 0 10px; }
+.album-card > strong { font-size: 22px; color: #42684d; }
+.album-card p, .album-card > small { font-size: 11px; color: #687264; line-height: 1.8; }
+.sticker { position: relative; display: grid; place-items: center; width: 96px; height: 96px; margin: auto; border-radius: 50%; background: #ecece5; border: 5px solid white; box-shadow: 0 3px 10px #394f3620; filter: grayscale(1); opacity: .45; }
+.sticker.earned { background: var(--tint); filter: none; opacity: 1; transform: rotate(-8deg); }
+.sticker .picture { width: 66px; height: 66px; }
+.sticker > span { position: absolute; right: -3px; bottom: -8px; font-size: 28px; color: #c79138; text-shadow: 0 2px white; }
+.sticker-milestones { display: flex; justify-content: center; gap: 7px; padding: 10px 0; }
+.sticker-milestones > span { color: #c5c9bf; font-size: 23px; }
+.sticker-milestones .earned { color: #cc9347; }
+.sticker-milestones small { display: block; font-size: 9px; }
+.album-note { color: #687264; font-size: 12px; line-height: 1.8; margin: 24px 0 0; }
+@media (max-width: 600px) { .sticker-album { padding: 24px 16px; } .album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .sticker-milestones { gap: 4px; } .sticker-milestones > span { font-size: 20px; } }
 :root {
   --paper: #faf7ef;
   --ink: #3f4c43;

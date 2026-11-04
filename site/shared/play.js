@@ -2,6 +2,7 @@ import { mountAudioControls } from "./audio.js?v=4";
 import { games, names } from "./catalog.js?v=4";
 import { art } from "./art.js?v=4";
 import { makeQuestion, makeDeck } from "./questions.js?v=4";
+import { mountStickerAlbum } from "./stickers.js?v=5";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");
@@ -23,6 +24,7 @@ let pendingTimer;
 let circleTimer;
 let advanceTimer;
 const audio = mountAudioControls();
+const stickers = mountStickerAlbum();
 const correctMark = document.createElement("div");
 correctMark.className = "correct-mark";
 correctMark.hidden = true;
@@ -77,6 +79,7 @@ function option(value, content, label, extra = "") {
   return `<button type="button" class="choice ${extra}" data-answer="${value}" aria-label="${label}">${content}</button>`;
 }
 function showResult() {
+  stickers.earn(game.id, difficulty, true);
   next.hidden = true;
   instruction.textContent = "いっぱい あそんだね";
   say("");
@@ -85,12 +88,14 @@ function showResult() {
   board.querySelector("h2").focus();
 }
 function correct(button) {
+  if (answered) return;
   answered = true;
+  stickers.earn(game.id, difficulty);
   button.classList.add("correct");
   board.querySelectorAll("button").forEach((item) => {
     item.disabled = true;
   });
-  say("できたね！ はなまる！", true);
+  say("できたね！ シールを 1まい もらったよ！", true);
   updateProgress();
   next.hidden = true;
   feedback.textContent += round === 4 ? " おしまいまで もうすこし！" : " つぎの もんだいへ…";
@@ -230,10 +235,11 @@ function turnCard(index) {
   }
   const [first, second] = faceUp;
   if (deck[first] === deck[second]) {
+    stickers.earn(game.id, difficulty);
     matched.add(first);
     matched.add(second);
     faceUp = [];
-    say("おなじだね！ できた！", true);
+    say("おなじだね！ シールを 1まい もらったよ！", true);
     updateProgress();
     paintCards();
     if (matched.size === deck.length) {
