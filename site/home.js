@@ -1,7 +1,7 @@
-import { mountAudioControls } from "./shared/audio.js?v=4";
-import { games } from "./shared/catalog.js?v=4";
-import { art } from "./shared/art.js?v=4";
-import { mountStickerAlbum } from "./shared/stickers.js?v=5";
+import { mountAudioControls } from "./shared/audio.js?v=6";
+import { games } from "./shared/catalog.js?v=6";
+import { art } from "./shared/art.js?v=6";
+import { mountStickerAlbum } from "./shared/stickers.js?v=6";
 document.querySelector("#game-list").innerHTML = games
   .map(
     (game, i) => `
@@ -14,3 +14,13 @@ document.querySelector("#game-list").innerHTML = games
 
 mountAudioControls();
 mountStickerAlbum();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("in-view");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll(".game-card").forEach(card => observer.observe(card));

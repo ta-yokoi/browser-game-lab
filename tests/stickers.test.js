@@ -21,3 +21,11 @@ test("unavailable, malformed and invalid stored data are safe", () => {
   assert.deepEqual(album.games, { shape: { easy: 0, hard: 0, completed: 2 } });
   assert.deepEqual(earnSticker(album, "unknown", "easy"), album);
 });
+
+test("new hands-on games keep their stickers alongside existing achievements", () => {
+  let album = earnSticker(readAlbum(undefined), "same", "easy");
+  for (const id of ["trace", "puzzle", "rhythm"]) album = earnSticker(album, id, "hard");
+  const loaded = readAlbum({getItem: () => JSON.stringify(album)});
+  assert.equal(loaded.games.same.easy, 1);
+  for (const id of ["trace", "puzzle", "rhythm"]) assert.equal(loaded.games[id].hard, 1);
+});

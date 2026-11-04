@@ -1,8 +1,9 @@
-import { mountAudioControls } from "./audio.js?v=4";
-import { games, names } from "./catalog.js?v=4";
-import { art } from "./art.js?v=4";
-import { makeQuestion, makeDeck } from "./questions.js?v=4";
-import { mountStickerAlbum } from "./stickers.js?v=5";
+import { mountAudioControls } from "./audio.js?v=6";
+import { games, names } from "./catalog.js?v=6";
+import { art } from "./art.js?v=6";
+import { makeQuestion, makeDeck } from "./questions.js?v=6";
+import { mountStickerAlbum } from "./stickers.js?v=6";
+import { renderHandsOn } from "./hands-on.js?v=6";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");
@@ -23,6 +24,7 @@ let memoryLocked = false;
 let pendingTimer;
 let circleTimer;
 let advanceTimer;
+let interaction;
 const audio = mountAudioControls();
 const stickers = mountStickerAlbum();
 const correctMark = document.createElement("div");
@@ -33,12 +35,15 @@ correctMark.innerHTML =
   '<svg viewBox="0 0 240 240" focusable="false"><circle cx="120" cy="120" r="100" fill="none" stroke="#df353c" stroke-width="18"/></svg>';
 document.body.append(correctMark);
 const descriptions = {
+  trace: "やさしい：4つの星。ちょっとむずかしい：5つの星を順番になぞります。",
+  puzzle: "やさしい：4ピース。ちょっとむずかしい：6ピースの絵を組み立てます。",
+  rhythm: "やさしい：3音。ちょっとむずかしい：5音の順番を再現します。",
   same: "やさしい：3つから選びます。ちょっとむずかしい：5つから選びます。",
   count:
-    "やさしい：2〜6。ちょっとむずかしい：6〜10。点を数えて選んでも大丈夫です。",
+    "やさしい：2〜6。ちょっとむずかしい：6〜10個をかごへ運びます。",
   shape:
     "やさしい：3つの枠。ちょっとむずかしい：4つの枠。形を指やマウスで動かします。",
-  size: "やさしい：3つから「おおきい」を選びます。ちょっとむずかしい：「ちいさい」「まんなか」も登場します。",
+  size: "やさしい：3つ。ちょっとむずかしい：4つを小さい順に並べ替えます。",
   pattern:
     "やさしい：3つの絵の規則。ちょっとむずかしい：4つの絵の規則を見つけます。",
   memory:
@@ -123,11 +128,19 @@ function selectAnswer(event) {
 }
 board.addEventListener("click", selectAnswer);
 function showQuestion(moveFocus = false) {
+  interaction?.abort();
+  interaction = new AbortController();
   answered = false;
   shapeSelected = false;
   next.hidden = true;
   say("");
   instruction.textContent = game.instruction;
+  if (["count", "size", "trace", "puzzle", "rhythm"].includes(game.id)) {
+    updateProgress();
+    renderHandsOn(game.id, { board, hard: difficulty === "hard", correct, say, audio, signal: interaction.signal });
+    if (moveFocus) board.querySelector("button")?.focus({ preventScroll: true });
+    return;
+  }
   question = makeQuestion(game.id, difficulty);
   updateProgress();
   if (game.id === "same") {
@@ -297,6 +310,7 @@ function showMemory(moveFocus = false) {
     board.querySelector("#memory-start").focus({ preventScroll: true });
 }
 function reset(moveFocus = false) {
+  interaction?.abort();
   clearTimeout(pendingTimer);
   clearTimeout(advanceTimer);
   round = 0;
@@ -313,6 +327,7 @@ document.querySelectorAll('[name="difficulty"]').forEach((input) =>
   }),
 );
 window.addEventListener("pagehide", () => {
+  interaction?.abort();
   clearTimeout(pendingTimer);
   clearTimeout(circleTimer);
   clearTimeout(advanceTimer);

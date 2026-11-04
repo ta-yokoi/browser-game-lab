@@ -20,6 +20,79 @@
 .sticker-milestones small { display: block; font-size: 9px; }
 .album-note { color: #687264; font-size: 12px; line-height: 1.8; margin: 24px 0 0; }
 @media (max-width: 600px) { .sticker-album { padding: 24px 16px; } .album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .sticker-milestones { gap: 4px; } .sticker-milestones > span { font-size: 20px; } }
+/* Garden edition: original vector art, no image or font downloads. */
+html { scroll-behavior: smooth; }
+.page .hero { padding: 60px 0 72px; gap: 52px; grid-template-columns: 1fr 1.05fr; }
+.page .hero h1 { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-weight: 600; font-size: clamp(42px, 5.3vw, 66px); letter-spacing: -.025em; line-height: 1.35; margin: 24px 0; }
+.page .hero h1 span { color: #315c49; }
+.page .hero .eyebrow { font-size: 9px; letter-spacing: .21em; color: #687d61; }
+.audio-controls .album-button { margin: 0; border-radius: 30px; }
+.page .hero-note { font-size: 13px; line-height: 2.1; }
+.page .text-link { background: #315c49; color: #fffdf5; border-radius: 50px; padding: 0 25px; margin-top: 18px; box-shadow: 0 8px 20px #315c4920; gap: 40px; }
+.page .hero-art { height: 430px; border-radius: 48% 48% 28% 28%; background: radial-gradient(ellipse at 50% 30%,#fff9dc,#e4e9ce 75%); overflow: hidden; box-shadow: inset 0 0 0 10px #ffffff30, 0 28px 60px #64764b18; }
+.scene-label { position: absolute; top: 38px; left: 0; width: 100%; text-align: center; font-size: 8px; letter-spacing: .2em; color: #8b936a; }
+.garden-orbit { position: absolute; width: 310px; height: 310px; left: calc(50% - 155px); top: 80px; border: 1px solid #a6b48740; border-radius: 50%; transform: rotate(-25deg) scaleX(1.3); }
+.garden-orbit.orbit-two { transform: rotate(25deg) scaleX(.8); border-style: dashed; }
+.page .hero-bunny { width: 235px; height: 235px; left: calc(50% - 118px); bottom: 65px; animation: garden-breathe 6s ease-in-out infinite; }
+.page .hero-flower { right: 15px; bottom: 44px; transform-origin: bottom center; animation: flower-sway 5s ease-in-out infinite; }
+.page .hero-apple { left: 25px; bottom: 45px; animation: fruit-float 5s ease-in-out infinite; }
+.page .sun { top: 90px; right: 45px; background: #eac674; box-shadow: 0 0 0 12px #eac67420,0 0 0 26px #eac6740e; }
+.page .hill { height: 190px; bottom: -75px; background: #bacda4; }
+.scene-chip { position: absolute; z-index: 2; padding: 12px 16px; border: 1px solid #fff; border-radius: 15px; color: #526b4f; background: #fffdf4e6; font-size: 10px; box-shadow: 0 6px 18px #49663b12; }
+.chip-one { left: 12px; top: 145px; transform: rotate(-8deg); }
+.chip-two { right: 18px; bottom: 28px; transform: rotate(7deg); }
+.page .hello { left: 23%; bottom: 23px; font-size: 10px; }
+.floating-leaf { position: absolute; color: #8fa479; font-size: 26px; animation: fruit-float 7s ease-in-out infinite; }
+.leaf-one { top: 95px; left: 67px; }.leaf-two { top: 190px; right: 30px; font-size: 16px; animation-delay: -3s; }
+.page .section-heading { border-top: 1px solid #d4dccb; padding-top: 30px; margin-bottom: 28px; }
+.page .section-heading h2 { font-size: 23px; letter-spacing: .04em; }
+.page .section-heading > span { font-size: 9px; letter-spacing: .15em; }
+.page .game-card { border-radius: 26px; background: #fffef9; box-shadow: 0 6px 20px #374d2d08; }
+.page .card-art { height: 190px; border-bottom: 1px solid #ffffff80; }
+.page .card-body { padding: 24px; }
+.page .card-body h3 { font-size: 20px; }
+.game-card.in-view { animation: garden-arrive .65s both; }
+.game-card:hover .card-art .picture { animation: fruit-float 2s ease-in-out infinite; }
+.mission-label { font-size: 18px; font-weight: 700; color: #42684d; text-align: center; }
+.mission-label strong { font-size: 38px; color: #b37932; margin-right: 6px; }
+.hands-hint { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.8; }
+.fruit-shelf, .piece-tray { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 20px; border-radius: 22px; background: #f1edde; width: 100%; }
+.fruit-piece, .assembly-piece { position: relative; z-index: 2; border: 1px solid #dfdfce; border-radius: 15px; background: #fffefa; padding: 6px; touch-action: none; cursor: grab; box-shadow: 0 4px 0 #dedfcd; }
+.fruit-piece .picture { width: 48px; height: 48px; }
+.fruit-piece:disabled { opacity: .15; }
+.held { z-index: 25; cursor: grabbing; box-shadow: 0 12px 25px #324b3933; }
+.picked { outline: 3px solid #dca84b; outline-offset: 3px; }
+.basket { width: 100%; min-height: 130px; border: 3px solid #c29862; border-radius: 18px 18px 40px 40px; background: repeating-linear-gradient(0deg,#e5c995 0 7px,#e0bf85 7px 9px); padding: 12px 18px; color: #624e32; }
+.basket-fruit { display: flex; flex-wrap: wrap; justify-content: center; }.basket-fruit .picture { width: 42px; height: 42px; }
+.basket-count { display: block; font-size: 20px; font-weight: 700; margin-top: 6px; }
+.hands-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.assembly { width: 100%; display: grid; grid-template-columns: repeat(var(--columns), minmax(0,1fr)); gap: 10px; }
+.assembly-slot { position: relative; min-height: 125px; border: 2px dashed #b5c5a8; border-radius: 16px; background: #eff3e6; display: grid; place-items: center; padding: 4px; }
+.assembly-slot > span { position: absolute; top: 5px; left: 8px; font-size: 11px; color: #8e9d7b; }
+.assembly-piece { display: inline-grid; place-items: center; }
+.size-piece { width: 115px; height: 125px; }.size-piece .picture { width: var(--piece-size); height: var(--piece-size); max-width: 100%; }
+.picture-puzzle { max-width: 350px; gap: 3px; border: 8px solid #e6d7bd; border-radius: 12px; padding: 3px; background: #e6d7bd; }
+.picture-puzzle .assembly-slot { border-radius: 4px; min-height: 100px; aspect-ratio: 2 / var(--columns); padding: 0; }
+.picture-piece { width: 90px; height: 90px; padding: 0; border-radius: 4px; background: #faf0df; }.picture-piece svg { width: 100%; height: 100%; }
+.assembly-slot .picture-piece { width: 100%; height: 100%; position: absolute; inset: 0; border: 0; box-shadow: none; }
+.puzzle-preview { display: flex; align-items: center; gap: 12px; color: var(--muted); }.puzzle-preview .picture { width: 68px; height: 68px; }
+.trace-field { width: min(100%, 390px); aspect-ratio: 1.3; overflow: visible; touch-action: none; background: #eef2e5; border-radius: 24px; padding: 8px; }
+.trace-guide { fill: none; stroke: #c9d3b9; stroke-width: 2; stroke-dasharray: 2 3; }.trace-ink { fill: none; stroke: #d9ac4e; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.trace-node circle { fill: #fffdf5; stroke: #b8c5a4; stroke-width: 1; }.trace-node text { font-size: 6px; fill: #61714f; text-anchor: middle; pointer-events: none; }.trace-node.visited circle { fill: #edce80; stroke: #d5a34b; }
+.trace-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }.trace-buttons .secondary { min-width: 44px; min-height: 44px; padding: 8px 16px; }
+.music-pads { display: grid; grid-template-columns: repeat(2,1fr); width: min(100%,420px); gap: 16px; }
+.music-pad { border: 2px solid #e0ceae; border-radius: 24px; padding: 15px; background: #f4e3bd; box-shadow: 0 7px 0 #d3bd91; transition: transform .12s,background .12s; }
+.music-pad:nth-child(2) { background: #e3ebcf; }.music-pad:nth-child(3) { background: #f0d7dc; }.music-pad:nth-child(4) { background: #dce8ef; }
+.music-pad .picture { display: block; margin: auto; width: 62px; height: 62px; }.music-pad > span { font-size: 14px; }
+.music-pad.lit { background: #ffe68d; transform: translateY(5px) scale(.97); box-shadow: 0 2px 0 #c9a047,0 0 0 6px #efd27055; }
+@keyframes garden-breathe { 0%,100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-9px) rotate(1deg); } }
+@keyframes fruit-float { 0%,100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+@keyframes flower-sway { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+@keyframes garden-arrive { from { opacity: .4; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 720px) {
+ .page .hero { grid-template-columns: 1fr; padding: 30px 0 42px; gap: 32px; }.desktop-break { display: initial; }.page .hero h1 { font-size: 44px; }.page .hero-art { height: 350px; max-width: 420px; }.page .hero-bunny { width: 200px; height: 200px; left: calc(50% - 100px); bottom: 55px; }.page .hero-flower { width: 80px; height: 80px; right: 10px; }.page .sun { top: 65px; right: 42px; width: 40px; height: 40px; }.scene-label { top: 25px; }.chip-one { top: 100px; font-size: 9px; }.page .card-art { height: 142px; }.page .card-body { padding: 16px 12px; }.page .card-body h3 { font-size: 16px; }.page .section-heading h2 { font-size: 20px; }.page .section-heading > span { font-size: 8px; }.fruit-shelf { padding: 12px; gap: 8px; }.fruit-piece .picture { width: 38px; height: 38px; }.piece-tray { gap: 8px; padding: 10px; }.size-piece { width: 64px; height: 100px; }.assembly-slot { min-height: 106px; }.size-piece .picture { width: calc(var(--piece-size) * .6); height: calc(var(--piece-size) * .6); }.assembly { gap: 5px; }.picture-piece { width: 74px; height: 74px; }.assembly-slot .picture-piece { width: 100%; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .game-card.in-view, .page .hero-bunny, .page .hero-flower, .page .hero-apple, .floating-leaf, .game-card:hover .card-art .picture { animation: none; } }
 :root {
   --paper: #faf7ef;
   --ink: #3f4c43;

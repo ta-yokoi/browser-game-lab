@@ -1,5 +1,5 @@
-import { games } from "./catalog.js?v=4";
-import { art } from "./art.js?v=4";
+import { games } from "./catalog.js?v=6";
+import { art } from "./art.js?v=6";
 
 const key = "komorebi-stickers-v1";
 const empty = () => ({ version: 1, games: {} });
@@ -41,7 +41,9 @@ export function mountStickerAlbum() {
   dialog.innerHTML = '<button type="button" class="album-close" aria-label="シール帳を閉じる">×</button><p class="eyebrow">できた！の たからもの</p><h2 id="album-title">わたしの シールちょう</h2><div class="album-content"></div>';
   document.body.append(dialog);
   const anchor = document.querySelector(".play-heading, .hero");
-  anchor.before(button);
+  const controls = document.querySelector(".audio-controls");
+  if (controls) controls.append(button);
+  else anchor.before(button);
   function paint() {
     const total = Object.values(album.games).reduce((sum, item) => sum + item.easy + item.hard, 0);
     button.textContent = `✿ シールちょう · ${total}まい`;

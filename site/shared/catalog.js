@@ -12,12 +12,12 @@ export const games = [
   {
     id: "count",
     title: "かずあそび",
-    subtitle: "いくつ あるかな？",
-    parent: "2〜10まで、数と量を見比べる",
+    subtitle: "かごに ぴったり はこぼう",
+    parent: "指定された数だけ果物をかごへ運ぶ",
     tag: "かず",
     color: "yellow",
     pictures: ["apple", "pear", "strawberry"],
-    instruction: "いくつ あるかな？",
+    instruction: "かごに ぴったり はこぼう",
   },
   {
     id: "shape",
@@ -32,8 +32,8 @@ export const games = [
   {
     id: "size",
     title: "おおきい・ちいさい",
-    subtitle: "どっちが おおきいかな？",
-    parent: "同じ絵の大きさを比べる",
+    subtitle: "ちいさい じゅんに ならべよう",
+    parent: "大きさを比べて順番に並べる",
     tag: "くらべる",
     color: "blue",
     pictures: ["bunny", "bunny"],
@@ -48,6 +48,15 @@ export const games = [
     color: "lavender",
     pictures: ["apple", "banana", "apple"],
     instruction: "つぎの えは なあに？",
+  },
+  {
+    id: "trace", title: "ほしの おさんぽ", subtitle: "ゆびで ほしを つなごう", parent: "線をなぞって、手と目の協調を育む", tag: "なぞる", color: "blue", pictures: ["star", "star"], instruction: "1から じゅんに ゆびで つなごう",
+  },
+  {
+    id: "puzzle", title: "えの パズル", subtitle: "ばらばらの えを もどそう", parent: "絵の断片を動かして全体を組み立てる", tag: "くみたてる", color: "peach", pictures: ["bunny"], instruction: "みほんと おなじ えに くみたてよう",
+  },
+  {
+    id: "rhythm", title: "おとの まねっこ", subtitle: "ひかった じゅんに たたこう", parent: "光と音の順番を覚えて再現する", tag: "かなでる", color: "lavender", pictures: ["flower", "star"], instruction: "ひかった じゅんばんを おぼえよう",
   },
   {
     id: "memory",
