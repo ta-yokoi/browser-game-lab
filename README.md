@@ -1,14 +1,31 @@
-# Browser Game Lab
+# こもれび — あそびのにわ
 
-ブラウザで遊べるゲームを開発し、GitHub Pagesで公開するためのスターターです。
-HTML / CSS / JavaScriptだけで動き、外部ライブラリやAPIキーは不要です。
-サンプルの「Target Tap」は、20秒間で的をクリック・タップするゲームです。
+3歳半ごろのお子さまと親子で遊ぶ、6種類のオリジナル知育ゲームです。
+HTML・CSS・JavaScriptと共通のSVGのみで動き、外部ライブラリ・通信API・音声・ログインは使いません。
+市販教材の問題やイラストは使用していません。
 
-## 現在の状態
+## あそび
 
-- ローカルのソース、開発・ビルドコマンド、GitHub Actions設定を用意しています。
-- GitHub上のリポジトリ作成と公開には、以下の初回セットアップが必要です。
-- 参照URL `https://ta-yokoi.github.io/android-learning-guide/android/` は作成時に取得できていないため、その内容やデザインは未反映です。
+| ゲーム             | やさしい      | ちょっとむずかしい |
+| ------------------ | ------------- | ------------------ |
+| おなじもの         | 2択           | 4択                |
+| かずあそび         | 1〜3          | 1〜5               |
+| かたちあわせ       | 2つの枠       | 3つの枠            |
+| おおきい・ちいさい | 大きい方を5問 | 小さい方を5問      |
+| つぎは なあに？    | ABABの続き    | ABABAの続き        |
+| えあわせ           | 2組4枚        | 3組6枚             |
+
+最初は保護者の方と一緒に遊んでください。各ゲーム下の「おうちの方へ・むずかしさ」で難易度を変更できます。変更すると最初から始まります。
+時間制限・点数の競争・ゲームオーバーはありません。間違えても何度でも選び直せます。
+絵合わせ以外は5問で一区切りです。絵合わせは全組が揃ったら終了です。
+
+## 公開
+
+公開先: https://ta-yokoi.github.io/browser-game-lab/
+
+`main`へpushするとGitHub Actionsが構文チェック・問題生成テスト・ビルド・公開を実行します。
+PRではチェックとビルドのみ実行します。PRの変更はmainにマージするまで公開されません。
+`site/`がソースで、`dist/`は公開用コピーです。生成物はコミットしません。
 
 ## ローカルで遊ぶ
 
@@ -31,76 +48,56 @@ npm run preview
 
 公開用のファイルは `dist/` に生成されます。プレビューは http://127.0.0.1:4173 です。
 
-## 初回だけ必要なGitHubの設定（macOS）
+## 検証
 
-1. ターミナルで以下を実行し、ブラウザでGitHubにログインします。
-   `gh auth login` では、公開先のアカウントを選んでください。
-   ワークフローをpushするため、`workflow` スコープも指定しています。
+`npm run check` は `site/`、`scripts/`、`tests/` 内のすべてのJavaScriptの構文、セットアップ用シェルの構文、問題生成のテストを確認します。
+`npm test` では問題生成テストのみを実行します。
+問題は各難易度で繰り返し生成し、正解が1つだけ存在すること、数の範囲、交互の並び、絵合わせのペア数を検証します。
 
-   ```sh
-   brew install gh
-   gh auth login --hostname github.com --git-protocol https --web --scopes workflow
-   ```
+ブラウザで確認する項目:
 
-2. コミット用の名前とメールを、このフォルダに設定します。
-   メールにはGitHubの Settings → Emails で確認できる非公開用の `noreply` アドレスも使えます。
+- トップページから全ゲームへ移動し、ホームに戻れる
+- 各ゲームの正解・不正解・5問終了・再挑戦・難易度変更
+- 形を選択してから枠に合わせる操作
+- 絵合わせの開始前表示、不一致中の連打防止、全組完成
+- 難易度変更時に待機中の処理が残らない
+- スマートフォン縦画面（幅320〜390px）とPC、キーボード操作
 
-   ```sh
-   cd /Users/takamichiyokoi/70_openx/10_git_game
-   git init -b main
-   git config user.name "あなたのコミット名"
-   git config user.email "あなたのGitHub用メールアドレス"
-   ```
+## ファイル構成
 
-3. 次のスクリプトを実行します。ログイン中のアカウントに **公開リポジトリ** `browser-game-lab` を作成し、初回コミット・push・Pagesの有効化・公開ワークフローの起動を行います。
-   別のリポジトリ名にする場合は、引数を変更してください。既存リポジトリを上書きする処理はありません。
-
-   ```sh
-   bash scripts/setup-github.sh browser-game-lab
-   ```
-
-4. 出力された Actions のURLで `Deploy to GitHub Pages` が成功したら公開完了です。
-   初回push時にPages未設定で失敗した実行があっても、設定後の実行が成功していれば問題ありません。
-   ワークフロー起動だけ失敗した場合は、設定後に以下を実行してください。
-
-   ```sh
-   gh workflow run pages.yml --ref main
-   ```
-
-`ta-yokoi` アカウントで作成した場合の公開予定URL:
-https://ta-yokoi.github.io/browser-game-lab/
-
-PagesのAPI設定が権限不足で失敗した場合は、リポジトリの **Settings → Pages → Build and deployment → Source → GitHub Actions** を選択し、Actionsからワークフローを再実行してください。アカウントや組織側でActionsが無効の場合は、その有効化も必要です。
+```text
+site/
+  index.html                 ゲーム一覧
+  home.js                    一覧カードの描画
+  style.css                  全画面共通のスタイル
+  assets/pictures.svg        再利用するオリジナルSVGイラスト
+  games/<ゲームID>/index.html 各ゲームの入口（6種類）
+  shared/catalog.js          ゲーム説明・絵の名前
+  shared/art.js              SVG描画
+  shared/questions.js        問題・カードの生成
+  shared/play.js             共通の進行・操作処理
+scripts/
+  check.mjs                  JavaScriptの再帰的な構文チェック
+  build.mjs                  公開用ファイルの生成
+  setup-github.sh             初回のリポジトリ・Pages設定
+tests/questions.test.js      問題生成のテスト
+.github/workflows/pages.yml  自動検証・公開
+```
 
 ## 普段の更新
 
 ```sh
 npm run check
 npm run build
-git add site scripts package.json README.md .github .gitignore
-git commit -m "Update game"
+git add site scripts tests package.json README.md
+git commit -m "Update learning games"
 git push
 ```
 
-`main` へのpushで検証・ビルド・公開が自動実行されます。
-プルリクエストでは検証とビルドのみ実行します。
-`dist/` 自体はGit管理しません。公開されるのは `dist/` に含まれる静的ファイルです。
-GitHub Pagesのリポジトリ配下のURLに対応するため、アセットには相対パスを使っています。
+作業ブランチからmainへPRを作成し、確認してマージしてください。
+画像は共通SVGを再利用し、外部フォント・画像のダウンロードは行いません。
+ブラウザの「動きを減らす」設定に対応しています。
+ゲームの成績や個人情報の保存・送信は行いません。
 
-## ファイル構成
-
-```text
-site/
-  index.html                 ページとゲームの表示要素
-  style.css                  レイアウト、スマートフォン対応
-  game.js                    サンプルゲームの処理
-scripts/
-  build.mjs                  公開用ファイルの生成
-  setup-github.sh             リポジトリ作成・Pagesの初回設定
-.github/workflows/pages.yml  自動検証・公開
-```
-
-ゲームを変更するときは、まず `site/game.js` と `site/index.html` を編集します。
-サーバー側の処理、認証、オンライン対戦、ランキング保存は現在のスターターには含まれていません。
-
-公式資料: [GitHub Pagesのカスタムワークフロー](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)、[GitHub CLIでのリポジトリ作成](https://cli.github.com/manual/gh_repo_create)。
+GitHub Pagesの設定は Settings → Pages → Source → GitHub Actions を使用します。
+既存リポジトリでは初回セットアップ用スクリプトを再実行する必要はありません。
