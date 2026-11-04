@@ -23,7 +23,7 @@ if [[ "$(git branch --show-current)" != main ]]; then
   exit 1
 fi
 if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
-  git add .gitignore package.json README.md site scripts .github
+  git add .gitignore package.json README.md site scripts tests .github
   git commit -m "Set up browser game starter and GitHub Pages deployment"
 fi
 if git remote get-url origin >/dev/null 2>&1; then
