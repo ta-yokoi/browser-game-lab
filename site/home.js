@@ -1,3 +1,4 @@
+import { mountAudioControls } from "./shared/audio.js";
 import { games } from "./shared/catalog.js";
 import { art } from "./shared/art.js";
 document.querySelector("#game-list").innerHTML = games
@@ -9,3 +10,5 @@ document.querySelector("#game-list").innerHTML = games
   </a>`,
   )
   .join("");
+
+mountAudioControls();

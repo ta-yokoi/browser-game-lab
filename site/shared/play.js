@@ -1,3 +1,4 @@
+import { mountAudioControls } from "./audio.js";
 import { games, names } from "./catalog.js";
 import { art } from "./art.js";
 import { makeQuestion, makeDeck } from "./questions.js";
@@ -19,6 +20,8 @@ let matched = new Set();
 let memoryStarted = false;
 let memoryLocked = false;
 let pendingTimer;
+let circleTimer;
+const audio = mountAudioControls();
 const descriptions = {
   same: "やさしい：2つから選びます。ちょっとむずかしい：4つから選びます。",
   count:
@@ -37,6 +40,16 @@ document.querySelector("#difficulty-description").textContent =
   descriptions[game.id];
 
 function say(text, celebrate = false) {
+  clearTimeout(circleTimer);
+  board.classList.remove("show-correct");
+  if (celebrate) {
+    board.classList.add("show-correct");
+    circleTimer = setTimeout(
+      () => board.classList.remove("show-correct"),
+      1200,
+    );
+    audio.effect(true);
+  }
   feedback.textContent = text;
   feedback.classList.toggle("celebrate", celebrate);
 }
@@ -84,7 +97,10 @@ function selectAnswer(event) {
     return;
   }
   if (String(question.answer) === button.dataset.answer) correct(button);
-  else say("もういちど みてみよう。だいじょうぶ！");
+  else {
+    audio.effect(false);
+    say("もういちど みてみよう。だいじょうぶ！");
+  }
 }
 board.addEventListener("click", selectAnswer);
 function showQuestion(moveFocus = false) {
@@ -180,6 +196,7 @@ function turnCard(index) {
   } else {
     memoryLocked = true;
     paintCards();
+    audio.effect(false);
     say("だいじょうぶ。もういちど さがそう");
     pendingTimer = setTimeout(() => {
       faceUp = [];
@@ -236,7 +253,10 @@ document.querySelectorAll('[name="difficulty"]').forEach((input) =>
     say("むずかしさを かえたよ。はじめから あそぼう");
   }),
 );
-window.addEventListener("pagehide", () => clearTimeout(pendingTimer));
+window.addEventListener("pagehide", () => {
+  clearTimeout(pendingTimer);
+  clearTimeout(circleTimer);
+});
 // A restored page may have been suspended during a mismatched pair.
 window.addEventListener("pageshow", (event) => {
   if (event.persisted) reset();
