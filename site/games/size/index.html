@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#faf7ef" />
+    <title>おおきい・ちいさい｜こもれび</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <script type="module" src="../../shared/play.js"></script>
+  </head>
+  <body data-game="size">
+    <div class="play-page">
+      <header class="play-header">
+        <a class="home-button" href="../../index.html"
+          ><svg viewBox="0 0 100 100" aria-hidden="true">
+            <use href="../../assets/pictures.svg#home" /></svg
+          >おうちへ</a
+        ><span class="play-brand"
+          >こもれび<span aria-hidden="true"> ✳</span></span
+        >
+      </header>
+      <main>
+        <div class="play-heading">
+          <p class="eyebrow" id="game-tag"></p>
+          <h1>おおきい・ちいさい</h1>
+          <p id="instruction"></p>
+        </div>
+        <div id="progress" class="progress" aria-label="すすみぐあい"></div>
+        <section id="board" class="board" aria-label="あそびのばしょ"></section>
+        <div
+          class="feedback"
+          id="feedback"
+          role="status"
+          aria-live="polite"
+        ></div>
+        <div class="next-area">
+          <button class="primary" id="next" hidden>
+            つぎへ <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <noscript
+          ><p>
+            あそぶには、ブラウザのJavaScriptを有効にしてください。
+          </p></noscript
+        >
+        <details class="settings">
+          <summary>おうちの方へ・むずかしさ</summary>
+          <p id="parent-description"></p>
+          <fieldset>
+            <legend>難易度を変えると、はじめから遊び直します。</legend>
+            <label
+              ><input type="radio" name="difficulty" value="easy" checked />
+              やさしい</label
+            ><label
+              ><input type="radio" name="difficulty" value="hard" />
+              ちょっとむずかしい</label
+            >
+          </fieldset>
+          <p id="difficulty-description"></p>
+          <p>音は出ません。絵を指さして、一緒に遊んでみてください。</p>
+        </details>
+      </main>
+      <footer class="play-footer">ゆっくりで だいじょうぶ。</footer>
+    </div>
+  </body>
+</html>

@@ -1,32 +1,79 @@
 <!doctype html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#10251f">
-    <meta name="description" content="ブラウザで遊べるゲームを、ここから。GitHub Pagesで動くゲーム開発の実験室。">
-    <title>Browser Game Lab</title>
-    <link rel="stylesheet" href="./style.css">
-    <script type="module" src="./game.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#faf7ef" />
+    <meta
+      name="description"
+      content="みつける、かぞえる、おぼえる。小さな子どもと親子で楽しむ、6つのやさしい知育あそび。"
+    />
+    <title>こもれび｜あそびのにわ</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./home.js"></script>
   </head>
   <body>
-    <main>
-      <header><a class="brand" href="./">BGL<span> / Browser Game Lab</span></a><span class="badge">PLAY IN YOUR BROWSER</span></header>
-      <section class="intro">
-        <p class="eyebrow">小さなゲーム、大きなアイデア。</p>
-        <h1>遊びを、<br>ここからつくろう。</h1>
-        <p>インストール不要。パソコンでもスマートフォンでも。<br>まずはサンプルゲームで、最初の一歩を。</p>
-      </section>
-      <section class="game" aria-labelledby="game-title">
-        <div class="game-heading"><div><p class="eyebrow">01 / STARTER GAME</p><h2 id="game-title">Target Tap</h2></div><p>20秒で、いくつ見つけられる？</p></div>
-        <div class="stats"><span>SCORE <strong id="score">0</strong></span><span>TIME <strong id="time">20</strong><small>秒</small></span></div>
-        <div class="arena" id="arena">
-          <p id="message" role="status">「スタート」を押して、出てきた的をタップ！</p>
-          <button id="target" class="target" type="button" aria-label="的をタップ" hidden>＋</button>
-        </div>
-        <div class="controls"><button id="start" type="button">スタート <span aria-hidden="true">↗</span></button><p>的をクリック・タップすると1点。<br>キーボードではTabで的を選び、Enterでも遊べます。</p></div>
-      </section>
-      <footer><span>Browser Game Lab</span><span>ひとつずつ、遊べるアイデアを。</span></footer>
-    </main>
+    <div class="page">
+      <header class="site-header">
+        <a href="./" class="brand"
+          ><span class="brand-mark" aria-hidden="true">✳</span
+          ><span>こもれび<small>あそびのにわ</small></span></a
+        ><span class="header-note">おやこで、ゆっくり。</span>
+      </header>
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">ちいさな「できた！」を、ひとつずつ。</p>
+            <h1>きょうは、<br />なにして <span>あそぼう？</span></h1>
+            <p class="hero-note">
+              みつけて、かぞえて、おぼえて。<br />きみのペースで
+              あそべる、6つのにわ。
+            </p>
+            <a class="text-link" href="#games"
+              >すきな あそびを えらんでね <span aria-hidden="true">↓</span></a
+            >
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="sun"></div>
+            <span class="spark spark-one">✧</span
+            ><span class="spark spark-two">✧</span
+            ><svg class="hero-bunny" viewBox="0 0 100 100">
+              <use href="./assets/pictures.svg#bunny" /></svg
+            ><svg class="hero-flower" viewBox="0 0 100 100">
+              <use href="./assets/pictures.svg#flower" /></svg
+            ><svg class="hero-apple" viewBox="0 0 100 100">
+              <use href="./assets/pictures.svg#apple" />
+            </svg>
+            <div class="hill"></div>
+            <span class="hello">いっしょに あそぼう</span>
+          </div>
+        </section>
+        <section id="games" aria-labelledby="games-title">
+          <div class="section-heading">
+            <h2 id="games-title">あそびを えらぶ</h2>
+            <span>ぜんぶで 6つ</span>
+          </div>
+          <div id="game-list" class="game-grid"></div>
+          <noscript
+            ><p>
+              あそぶには、ブラウザのJavaScriptを有効にしてください。
+            </p></noscript
+          >
+        </section>
+        <aside class="parent-note">
+          <span class="parent-flower" aria-hidden="true">✿</span>
+          <div>
+            <h2>おうちの方へ</h2>
+            <p>
+              はじめは、お子さまと一緒に。間違えても何度でも試せます。<br />時間制限や点数の競争はありません。各あそびの「おうちの方へ」から難易度を選べます。
+            </p>
+          </div>
+        </aside>
+      </main>
+      <footer class="site-footer">
+        <span>こもれび · あそびのにわ</span
+        ><span>ひとつできたら、はなまる。</span>
+      </footer>
+    </div>
   </body>
 </html>
