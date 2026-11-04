@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10251f">
+    <meta name="description" content="ブラウザで遊べるゲームを、ここから。GitHub Pagesで動くゲーム開発の実験室。">
+    <title>Browser Game Lab</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="module" src="./game.js"></script>
+  </head>
+  <body>
+    <main>
+      <header><a class="brand" href="./">BGL<span> / Browser Game Lab</span></a><span class="badge">PLAY IN YOUR BROWSER</span></header>
+      <section class="intro">
+        <p class="eyebrow">小さなゲーム、大きなアイデア。</p>
+        <h1>遊びを、<br>ここからつくろう。</h1>
+        <p>インストール不要。パソコンでもスマートフォンでも。<br>まずはサンプルゲームで、最初の一歩を。</p>
+      </section>
+      <section class="game" aria-labelledby="game-title">
+        <div class="game-heading"><div><p class="eyebrow">01 / STARTER GAME</p><h2 id="game-title">Target Tap</h2></div><p>20秒で、いくつ見つけられる？</p></div>
+        <div class="stats"><span>SCORE <strong id="score">0</strong></span><span>TIME <strong id="time">20</strong><small>秒</small></span></div>
+        <div class="arena" id="arena">
+          <p id="message" role="status">「スタート」を押して、出てきた的をタップ！</p>
+          <button id="target" class="target" type="button" aria-label="的をタップ" hidden>＋</button>
+        </div>
+        <div class="controls"><button id="start" type="button">スタート <span aria-hidden="true">↗</span></button><p>的をクリック・タップすると1点。<br>キーボードではTabで的を選び、Enterでも遊べます。</p></div>
+      </section>
+      <footer><span>Browser Game Lab</span><span>ひとつずつ、遊べるアイデアを。</span></footer>
+    </main>
+  </body>
+</html>

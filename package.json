@@ -1,0 +1,14 @@
+{
+  "name": "browser-game-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "GitHub Pagesで公開するブラウザゲームの開発環境",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "python3 -m http.server 5173 --bind 127.0.0.1 --directory site",
+    "check": "node --check site/game.js && node --check scripts/build.mjs && bash -n scripts/setup-github.sh",
+    "build": "node scripts/build.mjs",
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dist"
+  }
+}

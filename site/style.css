@@ -1,0 +1,32 @@
+:root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #10251f; background: #f3f2ea; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1056px; margin: auto; padding: 0 32px; }
+header, footer, .game-heading, .stats, .controls { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+header { min-height: 96px; border-bottom: 1px solid #ccd1c6; }
+.brand { text-decoration: none; color: inherit; font-weight: 850; font-size: 24px; }
+.brand span { font-size: 13px; font-weight: 500; }
+.badge, .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.badge { border: 1px solid #b9c3b3; border-radius: 30px; padding: 9px 13px; }
+.intro { padding: 56px 0 36px; }
+h1 { font-size: clamp(38px, 6vw, 66px); line-height: 1.25; letter-spacing: -.045em; margin: 16px 0 22px; }
+.intro > p:last-child, .controls p { line-height: 1.9; color: #59665d; font-size: 14px; }
+.game { background: #fffef9; border: 1px solid #d3d7ca; border-radius: 20px; padding: 28px; }
+h2 { margin: 5px 0 20px; font-size: 30px; letter-spacing: -.03em; }
+.game-heading .eyebrow { color: #657461; margin: 0; }
+.game-heading > p { font-size: 14px; }
+.stats { background: #10251f; color: #f3f2ea; justify-content: flex-start; gap: 40px; padding: 18px 24px; border-radius: 12px 12px 0 0; font-size: 11px; letter-spacing: .1em; }
+.stats strong { font-size: 27px; margin-left: 12px; font-variant-numeric: tabular-nums; }
+.stats small { margin-left: 4px; }
+.arena { position: relative; height: 290px; background-color: #e7eddf; background-image: radial-gradient(#becbb4 1px, transparent 1px); background-size: 20px 20px; overflow: hidden; border-radius: 0 0 12px 12px; }
+.arena p { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 20px; font-size: 14px; color: #4a5d45; margin: 0; }
+button { font: inherit; cursor: pointer; }
+.target { position: absolute; width: 56px; height: 56px; border-radius: 50%; background: #d8ef6a; border: 3px solid #10251f; font-size: 30px; color: #10251f; touch-action: manipulation; box-shadow: 0 4px 0 #10251f; }
+[hidden] { display: none !important; }
+.controls { margin-top: 22px; justify-content: flex-start; }
+#start { min-width: 160px; padding: 15px 20px; background: #10251f; color: white; border: none; border-radius: 8px; font-weight: 700; }
+#start span { padding-left: 24px; color: #d8ef6a; }
+button:focus-visible, a:focus-visible { outline: 3px solid #de741d; outline-offset: 5px; }
+.controls p { margin: 0; font-size: 12px; }
+footer { padding: 32px 0; font-size: 11px; color: #657461; }
+@media (max-width: 600px) { main { padding: 0 18px; } header { min-height: 76px; } .badge { display: none; } .intro { padding-top: 36px; } .game { padding: 18px; } .game-heading, .controls { align-items: flex-start; flex-direction: column; gap: 10px; } .game-heading > p { margin: 0 0 16px; } .arena { height: 260px; } .controls p { font-size: 11px; } footer { gap: 12px; flex-wrap: wrap; } }
