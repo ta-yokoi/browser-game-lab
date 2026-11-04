@@ -1,4 +1,4 @@
-import { pictureIds, shapeIds } from "./catalog.js";
+import { pictureIds, shapeIds } from "./catalog.js?v=4";
 export function shuffle(items, random = Math.random) {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
@@ -11,42 +11,46 @@ export function makeQuestion(id, difficulty = "easy", random = Math.random) {
   const hard = difficulty === "hard";
   const pictures = shuffle(pictureIds, random);
   if (id === "same") {
-    const options = pictures.slice(0, hard ? 4 : 2);
+    const options = pictures.slice(0, hard ? 5 : 3);
     return { answer: options[0], options: shuffle(options, random) };
   }
   if (id === "count") {
-    const max = hard ? 5 : 3;
-    const answer = 1 + Math.floor(random() * max);
+    const min = hard ? 6 : 2;
+    const max = hard ? 10 : 6;
+    const answer = min + Math.floor(random() * (max - min + 1));
+    const candidates = Array.from(
+      { length: max - min + 1 },
+      (_, index) => min + index,
+    );
+    const distractors = shuffle(
+      candidates.filter((value) => value !== answer),
+      random,
+    ).slice(0, hard ? 4 : 3);
     return {
       answer,
       picture: pictures[0],
-      options: shuffle(
-        Array.from({ length: max }, (_, i) => i + 1),
-        random,
-      ),
+      options: shuffle([answer, ...distractors], random),
     };
   }
   if (id === "shape") {
-    const options = shuffle(shapeIds, random).slice(0, hard ? 3 : 2);
+    const options = shuffle(shapeIds, random).slice(0, hard ? 4 : 3);
     return { answer: options[0], options: shuffle(options, random) };
   }
   if (id === "size") {
     return {
-      answer: hard ? "small" : "big",
+      answer: hard ? shuffle(["small", "medium"], random)[0] : "big",
       picture: pictures[0],
-      options: shuffle(["big", "small"], random),
+      options: shuffle(["big", "medium", "small"], random),
     };
   }
   if (id === "pattern") {
-    const pair = pictures.slice(0, 2);
-    const sequence = Array.from(
-      { length: hard ? 5 : 4 },
-      (_, i) => pair[i % 2],
-    );
+    const motif = pictures.slice(0, hard ? 4 : 3);
+    const length = hard ? 7 : 5;
+    const sequence = Array.from({ length }, (_, i) => motif[i % motif.length]);
     return {
-      answer: pair[sequence.length % 2],
+      answer: motif[sequence.length % motif.length],
       sequence,
-      options: shuffle(pair, random),
+      options: shuffle(motif, random),
     };
   }
   throw new Error(`Unknown question type: ${id}`);
@@ -54,7 +58,7 @@ export function makeQuestion(id, difficulty = "easy", random = Math.random) {
 export function makeDeck(difficulty = "easy", random = Math.random) {
   const selected = shuffle(pictureIds, random).slice(
     0,
-    difficulty === "hard" ? 3 : 2,
+    difficulty === "hard" ? 4 : 3,
   );
   return shuffle([...selected, ...selected], random);
 }

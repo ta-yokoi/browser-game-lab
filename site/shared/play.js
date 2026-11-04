@@ -1,7 +1,7 @@
-import { mountAudioControls } from "./audio.js?v=3";
-import { games, names } from "./catalog.js";
-import { art } from "./art.js";
-import { makeQuestion, makeDeck } from "./questions.js";
+import { mountAudioControls } from "./audio.js?v=4";
+import { games, names } from "./catalog.js?v=4";
+import { art } from "./art.js?v=4";
+import { makeQuestion, makeDeck } from "./questions.js?v=4";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");
@@ -21,6 +21,7 @@ let memoryStarted = false;
 let memoryLocked = false;
 let pendingTimer;
 let circleTimer;
+let advanceTimer;
 const audio = mountAudioControls();
 const correctMark = document.createElement("div");
 correctMark.className = "correct-mark";
@@ -30,16 +31,16 @@ correctMark.innerHTML =
   '<svg viewBox="0 0 240 240" focusable="false"><circle cx="120" cy="120" r="100" fill="none" stroke="#df353c" stroke-width="18"/></svg>';
 document.body.append(correctMark);
 const descriptions = {
-  same: "やさしい：2つから選びます。ちょっとむずかしい：4つから選びます。",
+  same: "やさしい：3つから選びます。ちょっとむずかしい：5つから選びます。",
   count:
-    "やさしい：1〜3。ちょっとむずかしい：1〜5。点を数えて選んでも大丈夫です。",
+    "やさしい：2〜6。ちょっとむずかしい：6〜10。点を数えて選んでも大丈夫です。",
   shape:
-    "やさしい：2つの枠。ちょっとむずかしい：3つの枠。形を押してから枠を選びます。",
-  size: "やさしい：「おおきいほう」を5問。ちょっとむずかしい：「ちいさいほう」を5問。",
+    "やさしい：3つの枠。ちょっとむずかしい：4つの枠。形を指やマウスで動かします。",
+  size: "やさしい：3つから「おおきい」を選びます。ちょっとむずかしい：「ちいさい」「まんなか」も登場します。",
   pattern:
-    "やさしい：4つの並びの続き。ちょっとむずかしい：5つの並びの続き。どちらも交互の並びです。",
+    "やさしい：3つの絵の規則。ちょっとむずかしい：4つの絵の規則を見つけます。",
   memory:
-    "やさしい：2組4枚。ちょっとむずかしい：3組6枚。覚えたら「はじめる」を押します。",
+    "やさしい：3組6枚。ちょっとむずかしい：4組8枚。覚えたら「はじめる」を押します。",
 };
 document.querySelector("#game-tag").textContent = game.tag;
 document.querySelector("#parent-description").textContent = game.parent;
@@ -91,9 +92,15 @@ function correct(button) {
   });
   say("できたね！ はなまる！", true);
   updateProgress();
-  next.textContent = round === 4 ? "おしまい ✿" : "つぎへ →";
-  next.hidden = false;
-  next.focus({ preventScroll: true });
+  next.hidden = true;
+  feedback.textContent += round === 4 ? " おしまいまで もうすこし！" : " つぎの もんだいへ…";
+  advanceTimer = setTimeout(() => {
+    if (round === 4) showResult();
+    else {
+      round++;
+      showQuestion(true);
+    }
+  }, 1400);
 }
 function selectAnswer(event) {
   const button = event.target.closest("[data-answer]");
@@ -123,18 +130,58 @@ function showQuestion(moveFocus = false) {
   } else if (game.id === "count") {
     board.innerHTML = `<div class="count-items" role="img" aria-label="${names[question.picture]}が ${question.answer}こ">${Array.from({ length: question.answer }, () => art(question.picture)).join("")}</div><div class="options">${question.options.map((n) => option(n, `<span class="number">${n}</span><span class="dots" aria-hidden="true">${"<i></i>".repeat(n)}</span>`, `${n}こ`)).join("")}</div>`;
   } else if (game.id === "shape") {
-    board.innerHTML = `<button type="button" class="choice shape-source" id="shape-source" aria-label="${names[question.answer]}をえらぶ" aria-pressed="false">${art(question.answer)}</button><span class="shape-arrow" aria-hidden="true">↓</span><div class="options">${question.options.map((id) => option(id, art(id, "outline"), `${names[id]}のおうち`)).join("")}</div>`;
-    board.querySelector("#shape-source").addEventListener("click", (event) => {
+    board.innerHTML = `<div class="shape-workspace"><div class="shape-origin"><span>ここから うごかそう</span><button type="button" class="choice shape-source" id="shape-source" aria-label="${names[question.answer]}をドラッグする" aria-pressed="false">${art(question.answer)}<small>つかんで うごかす</small></button></div><div class="options shape-targets">${question.options.map((id) => option(id, art(id, "outline"), `${names[id]}のおうち`, "shape-target")).join("")}</div></div>`;
+    const source = board.querySelector("#shape-source");
+    let dragStart;
+    let dragged = false;
+    source.addEventListener("pointerdown", (event) => {
       if (answered) return;
+      dragStart = { x: event.clientX, y: event.clientY };
+      dragged = false;
+      source.setPointerCapture(event.pointerId);
+      source.classList.add("dragging");
+    });
+    source.addEventListener("pointermove", (event) => {
+      if (!dragStart || answered) return;
+      const x = event.clientX - dragStart.x;
+      const y = event.clientY - dragStart.y;
+      if (Math.hypot(x, y) > 5) dragged = true;
+      source.style.transform = `translate(${x}px, ${y}px) scale(${dragged ? 1.04 : 1})`;
+    });
+    source.addEventListener("pointerup", (event) => {
+      if (!dragStart || answered) return;
+      source.releasePointerCapture(event.pointerId);
+      source.classList.remove("dragging");
+      const target = [...board.querySelectorAll(".shape-target")].find((item) => {
+        const rect = item.getBoundingClientRect();
+        return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      });
+      source.style.transform = "";
+      dragStart = null;
+      if (dragged && target) {
+        shapeSelected = true;
+        source.classList.add("selected");
+        source.setAttribute("aria-pressed", "true");
+        target.click();
+      } else if (dragged) say("わくの まんなかまで はこんでみよう");
+    });
+    source.addEventListener("click", (event) => {
+      if (answered) return;
+      if (dragged) {
+        dragged = false;
+        event.preventDefault();
+        return;
+      }
       shapeSelected = true;
       event.currentTarget.classList.add("selected");
       event.currentTarget.setAttribute("aria-pressed", "true");
       say("ぴったりの おうちは どれかな？");
     });
   } else if (game.id === "size") {
-    const adjective = question.answer === "big" ? "おおきい" : "ちいさい";
-    instruction.textContent = `${adjective}ほうを えらぼう`;
-    board.innerHTML = `<div class="size-example" role="img" aria-label="${adjective}ほうを えらぶ おてほん"><span class="example-pair">${art("circle", question.answer === "big" ? "requested" : "")}${art("circle", `small ${question.answer === "small" ? "requested" : ""}`)}</span><span>${adjective}ほう</span></div><div class="options size-options">${question.options.map((size) => option(size, art(question.picture, size), `${size === "big" ? "おおきい" : "ちいさい"} ${names[question.picture]}`, "size-choice")).join("")}</div>`;
+    const adjectives = { big: "おおきい", medium: "まんなかの", small: "ちいさい" };
+    const adjective = adjectives[question.answer];
+    instruction.textContent = `${adjective}ものを えらぼう`;
+    board.innerHTML = `<div class="size-example" role="img" aria-label="${adjective}ものを えらぶ おてほん"><span class="example-pair">${["big", "medium", "small"].map((size) => art("circle", `${size} ${question.answer === size ? "requested" : ""}`)).join("")}</span><span>${adjective}もの</span></div><div class="options size-options">${question.options.map((size) => option(size, art(question.picture, size), `${adjectives[size]} ${names[question.picture]}`, "size-choice")).join("")}</div>`;
   } else if (game.id === "pattern") {
     board.innerHTML = `<div class="sequence" role="img" aria-label="${question.sequence.map((id) => names[id]).join("、")}、つぎは？">${question.sequence.map((id) => art(id)).join("")}<span class="sequence-gap" aria-hidden="true">?</span></div><div class="options">${question.options.map((id) => option(id, art(id), names[id])).join("")}</div>`;
   }
@@ -192,10 +239,8 @@ function turnCard(index) {
     if (matched.size === deck.length) {
       memoryStarted = false;
       const actions = board.querySelector(".memory-actions");
-      actions.innerHTML =
-        '<button class="primary" id="memory-finish">おしまい ✿</button>';
-      actions.querySelector("button").addEventListener("click", showResult);
-      actions.querySelector("button").focus({ preventScroll: true });
+      actions.innerHTML = '<span class="memory-help">ぜんぶ できたね！</span>';
+      advanceTimer = setTimeout(showResult, 1400);
     } else
       board
         .querySelector(".memory-card:not(:disabled)")
@@ -224,7 +269,7 @@ function showMemory(moveFocus = false) {
   instruction.textContent = "えを みて おぼえよう";
   next.hidden = true;
   updateProgress();
-  board.innerHTML = `<div class="memory-grid ${deck.length === 6 ? "six" : ""}">${deck.map((_, index) => `<button type="button" class="choice memory-card" data-index="${index}"></button>`).join("")}</div><div class="memory-actions"><button type="button" id="memory-start" class="primary">はじめる →</button></div><p class="board-caption">おぼえたら「はじめる」を おしてね</p>`;
+  board.innerHTML = `<div class="memory-grid ${deck.length === 6 ? "six" : "eight"}">${deck.map((_, index) => `<button type="button" class="choice memory-card" data-index="${index}"></button>`).join("")}</div><div class="memory-actions"><button type="button" id="memory-start" class="primary">はじめる →</button></div><p class="board-caption">おぼえたら「はじめる」を おしてね</p>`;
   paintCards();
   board
     .querySelectorAll(".memory-card")
@@ -247,6 +292,7 @@ function showMemory(moveFocus = false) {
 }
 function reset(moveFocus = false) {
   clearTimeout(pendingTimer);
+  clearTimeout(advanceTimer);
   round = 0;
   answered = false;
   say("");
@@ -263,6 +309,7 @@ document.querySelectorAll('[name="difficulty"]').forEach((input) =>
 window.addEventListener("pagehide", () => {
   clearTimeout(pendingTimer);
   clearTimeout(circleTimer);
+  clearTimeout(advanceTimer);
 });
 // A restored page may have been suspended during a mismatched pair.
 window.addEventListener("pageshow", (event) => {

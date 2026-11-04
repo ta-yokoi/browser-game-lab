@@ -1,6 +1,6 @@
-import { mountAudioControls } from "./shared/audio.js?v=3";
-import { games } from "./shared/catalog.js";
-import { art } from "./shared/art.js";
+import { mountAudioControls } from "./shared/audio.js?v=4";
+import { games } from "./shared/catalog.js?v=4";
+import { art } from "./shared/art.js?v=4";
 document.querySelector("#game-list").innerHTML = games
   .map(
     (game, i) => `

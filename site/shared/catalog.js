@@ -13,7 +13,7 @@ export const games = [
     id: "count",
     title: "かずあそび",
     subtitle: "いくつ あるかな？",
-    parent: "1〜3から、数と量に親しむ",
+    parent: "2〜10まで、数と量を見比べる",
     tag: "かず",
     color: "yellow",
     pictures: ["apple", "pear", "strawberry"],
@@ -23,11 +23,11 @@ export const games = [
     id: "shape",
     title: "かたちあわせ",
     subtitle: "ぴったりの おうちを さがそう",
-    parent: "丸・三角・四角の形を見分ける",
+    parent: "図形を動かして、輪郭に重ねる",
     tag: "かたち",
     color: "mint",
     pictures: ["circle", "triangle", "square"],
-    instruction: "かたちを おしてから おうちを えらぼう",
+    instruction: "かたちを ぴったりの おうちへ はこぼう",
   },
   {
     id: "size",
@@ -43,7 +43,7 @@ export const games = [
     id: "pattern",
     title: "つぎは なあに？",
     subtitle: "じゅんばんを みつけよう",
-    parent: "交互に並ぶ絵の続きを考える",
+    parent: "3〜4種類の並びの規則を考える",
     tag: "ならび",
     color: "lavender",
     pictures: ["apple", "banana", "apple"],
@@ -53,7 +53,7 @@ export const games = [
     id: "memory",
     title: "えあわせ",
     subtitle: "おなじ ふたりを みつけよう",
-    parent: "2組から、絵の場所を覚える",
+    parent: "3〜4組から、絵の場所を覚える",
     tag: "おぼえる",
     color: "pink",
     pictures: ["cat", "bear"],
@@ -84,4 +84,4 @@ export const pictureIds = [
   "cat",
   "flower",
 ];
-export const shapeIds = ["circle", "triangle", "square"];
+export const shapeIds = ["circle", "triangle", "square", "star"];
