@@ -129,3 +129,20 @@ test("muting while resume is pending cannot restart music", async () => {
   assert.equal(ctx.nodes.length, 0);
   assert.equal(ctx.state, "suspended");
 });
+
+test("sound preference defaults on and round trips through storage", async () => {
+  const { readSoundPreference, saveSoundPreference } =
+    await import("../site/shared/audio.js");
+  const values = new Map();
+  const storage = {
+    getItem: (key) => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value),
+  };
+  assert.equal(readSoundPreference(storage), true);
+  saveSoundPreference(storage, false);
+  assert.equal(readSoundPreference(storage), false);
+  saveSoundPreference(storage, true);
+  assert.equal(readSoundPreference(storage), true);
+  assert.equal(readSoundPreference(undefined), true);
+  assert.doesNotThrow(() => saveSoundPreference(undefined, false));
+});

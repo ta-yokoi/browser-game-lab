@@ -1,4 +1,4 @@
-import { mountAudioControls } from "./shared/audio.js";
+import { mountAudioControls } from "./shared/audio.js?v=3";
 import { games } from "./shared/catalog.js";
 import { art } from "./shared/art.js";
 document.querySelector("#game-list").innerHTML = games

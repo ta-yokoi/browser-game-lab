@@ -1221,37 +1221,19 @@ input:focus-visible {
   }
 }
 
-/* A familiar, large red maru celebrates a correct answer without blocking input. */
-.board {
-  position: relative;
-}
-.board.show-correct::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  width: min(56vw, 220px);
-  aspect-ratio: 1;
-  border: 18px solid #df353c;
-  border-radius: 50%;
-  background: transparent;
-  box-shadow:
-    0 0 0 5px #fffdf8cc,
-    inset 0 0 0 5px #fffdf8cc;
+/* A real SVG overlay remains visible across browsers and cannot be clipped by the board. */
+.correct-mark {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
   pointer-events: none;
-  transform: translate(-50%, -50%);
-  animation: maru-appear 0.22s ease-out;
 }
-@keyframes maru-appear {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+.correct-mark svg {
+  width: min(72vw, 300px);
+  height: auto;
+  filter: drop-shadow(0 0 3px #fffdf8);
 }
 .audio-controls {
   display: flex;

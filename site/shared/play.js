@@ -1,4 +1,4 @@
-import { mountAudioControls } from "./audio.js";
+import { mountAudioControls } from "./audio.js?v=3";
 import { games, names } from "./catalog.js";
 import { art } from "./art.js";
 import { makeQuestion, makeDeck } from "./questions.js";
@@ -22,6 +22,13 @@ let memoryLocked = false;
 let pendingTimer;
 let circleTimer;
 const audio = mountAudioControls();
+const correctMark = document.createElement("div");
+correctMark.className = "correct-mark";
+correctMark.hidden = true;
+correctMark.setAttribute("aria-hidden", "true");
+correctMark.innerHTML =
+  '<svg viewBox="0 0 240 240" focusable="false"><circle cx="120" cy="120" r="100" fill="none" stroke="#df353c" stroke-width="18"/></svg>';
+document.body.append(correctMark);
 const descriptions = {
   same: "やさしい：2つから選びます。ちょっとむずかしい：4つから選びます。",
   count:
@@ -41,13 +48,13 @@ document.querySelector("#difficulty-description").textContent =
 
 function say(text, celebrate = false) {
   clearTimeout(circleTimer);
-  board.classList.remove("show-correct");
+  correctMark.hidden = !celebrate;
   if (celebrate) {
-    board.classList.add("show-correct");
-    circleTimer = setTimeout(
-      () => board.classList.remove("show-correct"),
-      1200,
-    );
+    // Keep the mark visible until Next; memory needs its board for another pair.
+    if (game.id === "memory")
+      circleTimer = setTimeout(() => {
+        correctMark.hidden = true;
+      }, 1800);
     audio.effect(true);
   }
   feedback.textContent = text;

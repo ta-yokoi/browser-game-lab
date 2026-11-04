@@ -166,49 +166,107 @@ export class GameAudio {
   }
 }
 
+const soundKey = "komorebi-sound-enabled";
+export function readSoundPreference(storage) {
+  try {
+    return storage.getItem(soundKey) !== "off";
+  } catch {
+    return true;
+  }
+}
+export function saveSoundPreference(storage, enabled) {
+  try {
+    storage.setItem(soundKey, enabled ? "on" : "off");
+  } catch {
+    /* Private browsing can disable storage. */
+  }
+}
+
 export function mountAudioControls() {
   const audio = new GameAudio();
+  let storage;
+  try {
+    storage = window.localStorage;
+  } catch {
+    /* Storage is optional. */
+  }
+  let enabled = readSoundPreference(storage);
+  audio.music = enabled;
+  audio.effects = enabled;
   const controls = document.createElement("div");
   controls.className = "audio-controls";
-  controls.setAttribute("role", "group");
-  controls.setAttribute("aria-label", "おとのせってい");
   controls.innerHTML =
-    '<button type="button" data-sound="music" aria-pressed="false">♪ おんがく：オフ</button><button type="button" data-sound="effects" aria-pressed="false">♫ こうかおん：オフ</button><span class="audio-notice" role="status"></span>';
+    '<button type="button" data-sound="all" aria-pressed="true"></button><span class="audio-notice" role="status"></span>';
   document.querySelector("main").prepend(controls);
+  const button = controls.querySelector("button");
   function refresh() {
-    controls.querySelectorAll("button").forEach((button) => {
-      const kind = button.dataset.sound;
-      button.setAttribute("aria-pressed", String(audio[kind]));
-      button.textContent = `${kind === "music" ? "♪ おんがく" : "♫ こうかおん"}：${audio[kind] ? "オン" : "オフ"}`;
-    });
-  }
-  controls.addEventListener("click", async (event) => {
-    const button = event.target.closest("button[data-sound]");
-    if (!button) return;
-    audio.paused = document.hidden;
-    const task = audio.setEnabled(
-      button.dataset.sound,
-      !audio[button.dataset.sound],
+    button.setAttribute("aria-pressed", String(enabled));
+    button.textContent = `♪ おと：${enabled ? "オン" : "オフ"}`;
+    button.setAttribute(
+      "aria-label",
+      `BGMとこうかおん：${enabled ? "オン。おすとオフ" : "オフ。おすとオン"}`,
     );
+  }
+  function reportUnavailable() {
+    controls.querySelector(".audio-notice").textContent =
+      "おとが つかえないときも、そのまま あそべるよ。";
+  }
+  button.addEventListener("click", async () => {
+    enabled = !enabled;
+    saveSoundPreference(storage, enabled);
+    audio.paused = document.hidden;
+    audio.effects = enabled;
+    if (!enabled) audio.stopVoices("effects");
     refresh();
-    if (!(await task))
-      controls.querySelector(".audio-notice").textContent =
-        "おとが つかえないときも、そのまま あそべるよ。";
-    refresh();
+    if (!(await audio.setEnabled("music", enabled))) reportUnavailable();
   });
-  // Resume only after an interaction when returning to a hidden/restored page.
+  // No autoplay on page load. Unlock both music and effects on the first gesture.
   const resume = () => {
     if (document.hidden) return;
     audio.paused = false;
-    audio.activate().catch(() => {});
+    audio.music = enabled;
+    audio.effects = enabled;
+    audio.activate().catch(reportUnavailable);
   };
-  document.addEventListener("pointerdown", resume);
+  // Capture click covers touch, mouse, keyboard and assistive-technology activation.
+  document.addEventListener(
+    "click",
+    (event) => {
+      if (!button.contains(event.target)) resume();
+    },
+    true,
+  );
+  document.addEventListener("pointerdown", (event) => {
+    if (!button.contains(event.target)) resume();
+  });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") resume();
+    if (
+      (event.key === "Enter" || event.key === " ") &&
+      !button.contains(event.target)
+    )
+      resume();
   });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) audio.pause();
   });
   window.addEventListener("pagehide", () => audio.pause());
+  window.addEventListener("pageshow", () => {
+    enabled = readSoundPreference(storage);
+    audio.music = enabled;
+    audio.effects = enabled;
+    refresh();
+  });
+  window.addEventListener("storage", (event) => {
+    if (event.key !== soundKey && event.key !== null) return;
+    enabled = readSoundPreference(storage);
+    audio.music = enabled;
+    audio.effects = enabled;
+    if (!enabled) {
+      audio.stopMusic();
+      audio.stopVoices();
+    }
+    refresh();
+  });
+  refresh();
   return audio;
 }
