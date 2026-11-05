@@ -1,0 +1,65 @@
+/* Shared theme. Vector artwork and system fonts keep downloads small. */
+:root {
+  --paper: #f5f7fc;
+  --ink: #24334b;
+  --muted: #626f83;
+  --green: #485ed4;
+  --line: #e0e6f1;
+  --peach: #ffe7de;
+  --yellow: #fff0c8;
+  --mint: #dff3eb;
+  --blue: #e0edff;
+  --lavender: #eae5ff;
+  --pink: #ffe3ed;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+}
+body { background: radial-gradient(ellipse at 90% 0,#e9eaff,transparent 50rem), #f5f7fc; color: var(--ink); }
+.page { max-width: 1200px; }
+.site-header,.play-header { border-color: var(--line); }
+.brand { letter-spacing: .03em; }.brand-mark { color: #6577df; filter: none; }.brand small { color: var(--muted); }
+.audio-controls { gap: 10px; padding: 18px 0 0; align-items: center; }
+.audio-controls button,.audio-controls .album-button,.home-button { border: 1px solid var(--line); border-radius: 16px; background: #ffffffd9; color: #40516e; box-shadow: 0 3px 12px #283f6806; font-size: 12px; min-height: 48px; padding: 10px 16px; }
+.audio-controls button[aria-pressed="true"] { background: #eef0ff; border-color: #d5dbfa; color: #4659ba; }
+.page .hero { padding: 42px 0 56px; gap: 48px; }
+.page .hero h1 { font-family: inherit; font-weight: 800; font-size: clamp(38px,5vw,62px); line-height: 1.28; letter-spacing: -.055em; }
+.page .hero h1 span { color: #5366d3; }.page .hero .eyebrow { color: #6374bc; font-size: 10px; letter-spacing: .16em; }
+.page .hero-note { font-size: 14px; color: #65738a; }
+.page .text-link,.primary { background: linear-gradient(120deg,#5269e1,#4659c4); border-color: transparent; color: #fff; box-shadow: 0 7px 18px #4d62d52b; border-radius: 18px; }
+.primary:active { box-shadow: 0 2px 6px #4d62d51a; }
+.secondary { background: #fff; color: #435573; border: 1px solid #d9e1ed; border-radius: 18px; box-shadow: none; }
+.page .hero-art { height: 410px; border-radius: 40px; background: linear-gradient(145deg,#e5eaff,#e4f4ed); border: 1px solid #fff; box-shadow: 0 20px 50px #506a9f12,inset 0 0 0 8px #ffffff3b; }
+.page .hill { background: #b9daca; }.garden-orbit { border-color: #92a5ce45; }.scene-label { color: #657b9a; }
+.scene-chip,.page .hello { color: #506480; background: #ffffffed; border-radius: 12px; box-shadow: 0 5px 14px #36547a0d; }.floating-leaf,.spark { color: #8f9ad0; }
+.page .section-heading { border-color: var(--line); }.page .section-heading h2 { font-weight: 750; color: #2c3d57; }
+.game-filters { gap: 8px; }.game-filters button { border-color: var(--line); border-radius: 14px; color: #5a6881; background: #fff; font-weight: 600; }
+.game-filters button[aria-pressed="true"] { background: #283d62; border-color: #283d62; box-shadow: 0 4px 12px #283d6214; }
+.game-grid { gap: 22px; }.page .game-card { border: 1px solid #e4e9f3; border-radius: 24px; background: #fff; box-shadow: 0 5px 20px #334c7907; }
+.page .game-card:hover { box-shadow: 0 16px 32px #334c7912; transform: translateY(-5px); }
+.page .card-art { height: 172px; background: linear-gradient(135deg,var(--tint),#ffffff66); }
+.card-number { color: #52647c; background: #ffffff9c; padding: 5px 8px; border-radius: 8px; font-size: 10px; }
+.card-art::after { border-color: #fff; box-shadow: 0 0 0 18px #ffffff30; }
+.page .card-body { padding: 22px; }.category { color: #5668b0; background: #f0f2fd; border-radius: 8px; }.card-body p,.parent-caption { color: #65748b; }
+.card-arrow { background: #f0f3fb; border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; color: #5b6cbd; font-size: 18px; }
+.parent-note { background: #edf1f9; border-color: #e0e6f1; border-radius: 24px; }.parent-flower { color: #7e8ccc; }
+.site-footer,.play-footer { color: #73819a; }.play-brand { color: #425371; }
+.play-page { max-width: 920px; }.play-heading h1 { letter-spacing: -.025em; color: #293d5b; }.play-heading .eyebrow { color: #6575b5; }
+.board { border-color: #e1e7f2; background: #fff; border-radius: 28px; box-shadow: 0 14px 40px #3852810a; }.board::before { border-color: #f0f3fa; }
+.welcome-art { border-radius: 28px; }.welcome-screen h2 { color: #334763; }.play-steps li::before { background: #edf0ff; color: #5669c5; }
+.level-choice button { border-color: #e2e7f1; color: #435570; background: #fff; }.level-choice button[aria-pressed="true"] { background: #f0f3ff; border-color: #6d7ddd; box-shadow: 0 3px 0 #e0e5ff; }
+.level-choice span { color: #ce9942; }.quick-guide { color: #63728b; }.feedback { color: #596cb0; }.feedback.celebrate { color: #436c75; }
+.progress-dot { background: #e3e8f4; }.progress-dot.current { box-shadow: 0 0 0 2px #7a8ae0; }.progress-dot.done { background: #7183dc; box-shadow: 0 0 0 4px #7183dc12; }
+.choice { border-color: #e0e6f0; background: #fff; box-shadow: 0 4px 0 #e8edf7; border-radius: 18px; }
+.choice:hover:not(:disabled) { background: #f5f7ff; border-color: #9ca9e8; }.choice.selected,.choice.correct { background: #edf6f1; border-color: #75a88a; box-shadow: 0 4px 0 #dcece3; }
+.sample,.shape-origin { background: #f0f4fc; }.shape-origin { border-color: #cbd6ed; }.shape-target { background: #fafbff; }.shape-target::before { color: #7988a3; }
+.settings { border-color: var(--line); }.settings fieldset { border-color: #dbe2ef; }.settings label { background: #eef2fb; }.settings input { accent-color: #6173d2; }
+.result h2 { color: #4059a0; }.session-reward { border-color: #e9dcb8; background: linear-gradient(135deg,#fff7db,#fffaf0); border-radius: 24px; }
+.sticker-album { background: #f6f8fe; border-color: #e0e5f1; color: #2e4261; border-radius: 28px; }.sticker-album::backdrop { background: #25365370; backdrop-filter: blur(6px); }
+.album-card { background: #fff; border-color: #e2e7f2; border-radius: 22px; }.album-card > strong,.album-intro strong { color: #5269be; }.album-close { color: #53678f; border-color: #e0e5f1; background: #fff; }
+.paint-tools .secondary { background: #fff; }.mission-label { color: #536786; }.fruit-shelf,.piece-tray { background: #f1f4fa; }.assembly-slot { background: #f0f4fc; border-color: #b9c8e0; }
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,[role="button"]:focus-visible { outline: 3px solid #7489e9; outline-offset: 4px; }
+@media(max-width:720px) {
+ .page .hero { gap: 26px; padding: 28px 0 40px; }.page .hero h1 { font-size: 42px; }.page .hero-art { height: 330px; border-radius: 30px; }
+ .page .card-art { height: 135px; }.page .card-body { padding: 16px 12px; }.page .card-body h3 { font-size: 15px; }.game-grid { gap: 12px; }.card-arrow { display: none; }
+ .game-filters button { padding: 10px 12px; }.audio-controls button,.audio-controls .album-button { font-size: 11px; padding: 10px 12px; }
+}
+@media(prefers-reduced-motion:reduce) { .page .game-card:hover { transform: none; } }
