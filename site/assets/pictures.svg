@@ -12,4 +12,6 @@
 <symbol id="square" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" rx="5"/></symbol>
 <symbol id="star" viewBox="0 0 100 100"><path d="M50 7L63 34L93 38L71 60L76 91L50 77L24 91L29 60L7 38L37 34Z" stroke-linejoin="round"/></symbol>
 <symbol id="home" viewBox="0 0 100 100"><path d="M12 47L50 14L88 47M23 40V87H77V40M42 87V63H58V87" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="diamond" viewBox="0 0 100 100"><path d="M50 6L89 50L50 94L11 50Z" stroke-linejoin="round"/></symbol>
+<symbol id="hexagon" viewBox="0 0 100 100"><path d="M28 12H72L94 50L72 88H28L6 50Z" stroke-linejoin="round"/></symbol>
 </svg>

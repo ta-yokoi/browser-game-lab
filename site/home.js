@@ -1,7 +1,7 @@
-import { mountAudioControls } from "./shared/audio.js?v=6";
-import { games } from "./shared/catalog.js?v=6";
-import { art } from "./shared/art.js?v=6";
-import { mountStickerAlbum } from "./shared/stickers.js?v=6";
+import { mountAudioControls } from "./shared/audio.js?v=7";
+import { games } from "./shared/catalog.js?v=7";
+import { art } from "./shared/art.js?v=7";
+import { mountStickerAlbum } from "./shared/stickers.js?v=7";
 document.querySelector("#game-list").innerHTML = games
   .map(
     (game, i) => `

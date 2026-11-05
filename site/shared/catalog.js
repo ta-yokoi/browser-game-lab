@@ -13,7 +13,7 @@ export const games = [
     id: "count",
     title: "かずあそび",
     subtitle: "かごに ぴったり はこぼう",
-    parent: "指定された数だけ果物をかごへ運ぶ",
+    parent: "数や足し算の答えに合わせて果物を運ぶ",
     tag: "かず",
     color: "yellow",
     pictures: ["apple", "pear", "strawberry"],
@@ -43,7 +43,7 @@ export const games = [
     id: "pattern",
     title: "つぎは なあに？",
     subtitle: "じゅんばんを みつけよう",
-    parent: "3〜4種類の並びの規則を考える",
+    parent: "繰り返しを含む複雑な並びを考える",
     tag: "ならび",
     color: "lavender",
     pictures: ["apple", "banana", "apple"],
@@ -62,7 +62,7 @@ export const games = [
     id: "memory",
     title: "えあわせ",
     subtitle: "おなじ ふたりを みつけよう",
-    parent: "3〜4組から、絵の場所を覚える",
+    parent: "5〜6組の絵の場所を覚える",
     tag: "おぼえる",
     color: "pink",
     pictures: ["cat", "bear"],
@@ -82,6 +82,8 @@ export const names = {
   triangle: "さんかく",
   square: "しかく",
   star: "ほし",
+  diamond: "ひしがた",
+  hexagon: "ろっかくけい",
 };
 export const pictureIds = [
   "apple",
@@ -93,4 +95,4 @@ export const pictureIds = [
   "cat",
   "flower",
 ];
-export const shapeIds = ["circle", "triangle", "square", "star"];
+export const shapeIds = ["circle", "triangle", "square", "star", "diamond", "hexagon"];

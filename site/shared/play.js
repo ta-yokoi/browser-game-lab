@@ -1,9 +1,9 @@
-import { mountAudioControls } from "./audio.js?v=6";
-import { games, names } from "./catalog.js?v=6";
-import { art } from "./art.js?v=6";
-import { makeQuestion, makeDeck } from "./questions.js?v=6";
-import { mountStickerAlbum } from "./stickers.js?v=6";
-import { renderHandsOn } from "./hands-on.js?v=6";
+import { mountAudioControls } from "./audio.js?v=7";
+import { games, names } from "./catalog.js?v=7";
+import { art } from "./art.js?v=7";
+import { makeQuestion, makeDeck } from "./questions.js?v=7";
+import { mountStickerAlbum } from "./stickers.js?v=7";
+import { renderHandsOn } from "./hands-on.js?v=7";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");
@@ -35,19 +35,19 @@ correctMark.innerHTML =
   '<svg viewBox="0 0 240 240" focusable="false"><circle cx="120" cy="120" r="100" fill="none" stroke="#df353c" stroke-width="18"/></svg>';
 document.body.append(correctMark);
 const descriptions = {
-  trace: "やさしい：4つの星。ちょっとむずかしい：5つの星を順番になぞります。",
-  puzzle: "やさしい：4ピース。ちょっとむずかしい：6ピースの絵を組み立てます。",
-  rhythm: "やさしい：3音。ちょっとむずかしい：5音の順番を再現します。",
-  same: "やさしい：3つから選びます。ちょっとむずかしい：5つから選びます。",
+  trace: "やさしい：6つの星。ちょっとむずかしい：8つの星を順番になぞります。",
+  puzzle: "やさしい：6ピース。ちょっとむずかしい：9ピースの絵を組み立てます。",
+  rhythm: "やさしい：5音。ちょっとむずかしい：7音の順番を再現します。",
+  same: "やさしい：6つから選びます。ちょっとむずかしい：8つから選びます。",
   count:
-    "やさしい：2〜6。ちょっとむずかしい：6〜10個をかごへ運びます。",
+    "やさしい：7〜12個。ちょっとむずかしい：足し算の答えの数（12〜18個）を運びます。難しい設定では運んだ数は表示されません。",
   shape:
-    "やさしい：3つの枠。ちょっとむずかしい：4つの枠。形を指やマウスで動かします。",
-  size: "やさしい：3つ。ちょっとむずかしい：4つを小さい順に並べ替えます。",
+    "やさしい：4つの枠。ちょっとむずかしい：ひし形・六角形を含む6つの枠へ運びます。",
+  size: "やさしい：4つを小さい順に。ちょっとむずかしい：5つを、指定された大きい順・小さい順に並べます。",
   pattern:
-    "やさしい：3つの絵の規則。ちょっとむずかしい：4つの絵の規則を見つけます。",
+    "やさしい：AABの規則。ちょっとむずかしい：ABACの規則を見つけ、まぎらわしい選択肢から続きを考えます。",
   memory:
-    "やさしい：3組6枚。ちょっとむずかしい：4組8枚。覚えたら「はじめる」を押します。",
+    "やさしい：5組10枚。ちょっとむずかしい：6組12枚。覚えたら「はじめる」を押します。",
 };
 document.querySelector("#game-tag").textContent = game.tag;
 document.querySelector("#parent-description").textContent = game.parent;

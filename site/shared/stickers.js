@@ -1,5 +1,5 @@
-import { games } from "./catalog.js?v=6";
-import { art } from "./art.js?v=6";
+import { games } from "./catalog.js?v=7";
+import { art } from "./art.js?v=7";
 
 const key = "komorebi-stickers-v1";
 const empty = () => ({ version: 1, games: {} });

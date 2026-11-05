@@ -1,5 +1,5 @@
-import { art } from "./art.js?v=6";
-import { shuffle } from "./questions.js?v=6";
+import { art } from "./art.js?v=7";
+import { shuffle } from "./questions.js?v=7";
 
 // Pointer Events share one interaction model across mouse, pen and touch.
 // Selecting a piece, then a destination, also works with keyboard buttons.
@@ -38,14 +38,15 @@ export function renderHandsOn(id, { board, hard, correct, say, audio, signal }) 
   const finish = () => { if (!signal.aborted) correct(board.querySelector("button")); };
   const hint = '<p class="hands-hint">つかんで はこぶ ／ おしてから おきばを おしても OK</p>';
   if (id === "count") {
-    const count = hard ? 6 + Math.floor(Math.random() * 5) : 2 + Math.floor(Math.random() * 5);
+    const count = hard ? 12 + Math.floor(Math.random() * 7) : 7 + Math.floor(Math.random() * 6);
+    const first = hard ? 4 + Math.floor(Math.random() * (count - 7)) : 0;
     const picture = shuffle(["apple", "pear", "strawberry"])[0];
-    board.innerHTML = `<div class="mission-label"><strong>${count}</strong>こ かごに はこぼう</div><div class="fruit-shelf">${Array.from({length: 12}, (_, i) => `<button class="fruit-piece" aria-label="${i + 1}ばんの くだもの">${art(picture)}</button>`).join("")}</div><button class="basket" aria-label="くだものを入れるかご"><span class="basket-fruit"></span><span class="basket-count">0 / ${count}</span></button>${hint}<div class="hands-actions"><button class="secondary undo">ひとつ もどす</button><button class="primary check">できた！</button></div>`;
+    board.innerHTML = `<div class="mission-label"><strong>${hard ? `${first} + ${count - first}` : count}</strong>こ かごに はこぼう</div><div class="fruit-shelf">${Array.from({length: 20}, (_, i) => `<button class="fruit-piece" aria-label="${i + 1}ばんの くだもの">${art(picture)}</button>`).join("")}</div><button class="basket" aria-label="くだものを入れるかご"><span class="basket-fruit"></span><span class="basket-count">かぞえて はこぼう</span></button>${hint}<div class="hands-actions"><button class="secondary undo">ひとつ もどす</button><button class="primary check">できた！</button></div>`;
     let selected; const placed = [];
     const basket = board.querySelector(".basket");
     const update = () => {
       basket.querySelector(".basket-fruit").innerHTML = placed.map(() => art(picture)).join("");
-      basket.querySelector(".basket-count").textContent = `${placed.length} / ${count}`;
+      basket.querySelector(".basket-count").textContent = hard ? "かぞえて たしかめよう" : `${placed.length}こ はこんだよ`;
     };
     const put = (piece) => { if (!piece || piece.disabled) return; piece.disabled = true; piece.classList.remove("picked"); placed.push(piece); selected = null; update(); };
     board.querySelectorAll(".fruit-piece").forEach((piece) => {
@@ -57,13 +58,17 @@ export function renderHandsOn(id, { board, hard, correct, say, audio, signal }) 
     listen(board.querySelector(".check"), () => placed.length === count ? finish() : say("かずを もういちど たしかめよう"));
   } else if (id === "size" || id === "puzzle") {
     const puzzle = id === "puzzle";
-    const length = puzzle ? (hard ? 6 : 4) : (hard ? 4 : 3);
-    const columns = puzzle ? (hard ? 3 : 2) : length;
+    const length = puzzle ? (hard ? 9 : 6) : (hard ? 5 : 4);
+    const columns = puzzle ? 3 : length;
+    const rows = puzzle ? length / columns : 1;
+    const descending = !puzzle && hard && Math.random() < 0.5;
     let order = shuffle(Array.from({length}, (_, i) => i));
     if (order.every((value, i) => value === i)) order.reverse();
     const picture = shuffle(["bunny", "cat", "bear"])[0];
-    const tile = (i) => puzzle ? `<svg viewBox="${i % columns * 100 / columns} ${Math.floor(i / columns) * 50} ${100 / columns} 50" aria-hidden="true"><use width="100" height="100" href="../../assets/pictures.svg#${picture}"/></svg>` : art(picture);
+    const tile = (i) => puzzle ? `<svg viewBox="${i % columns * 100 / columns} ${Math.floor(i / columns) * 100 / rows} ${100 / columns} ${100 / rows}" aria-hidden="true"><use width="100" height="100" href="../../assets/pictures.svg#${picture}"/></svg>` : art(picture);
     board.innerHTML = `<div class="mission-label">${puzzle ? "えを もとどおりに" : "ちいさい → おおきい"}</div>${puzzle ? `<div class="puzzle-preview">${art(picture)}<small>みほん</small></div>` : ""}<div class="assembly ${puzzle ? "picture-puzzle" : "size-line"}" style="--columns:${columns}">${Array.from({length}, (_, i) => `<div role="button" tabindex="0" class="assembly-slot" data-slot="${i}" aria-label="${i + 1}ばんの おきば"><span>${i + 1}</span></div>`).join("")}</div><div class="piece-tray">${order.map((i) => `<button class="assembly-piece ${puzzle ? "picture-piece" : "size-piece"}" data-piece="${i}" style="--piece-size:${40 + i * 19}px" aria-label="${puzzle ? "えのかけら" : "おおきさ"} ${i + 1}">${tile(i)}</button>`).join("")}</div>${hint}<button class="primary check">できた！</button>`;
+    board.querySelector(".assembly").style.setProperty("--rows", rows);
+    if (!puzzle) board.querySelector(".mission-label").textContent = descending ? "おおきい → ちいさい" : "ちいさい → おおきい";
     let selected;
     const slots = [...board.querySelectorAll(".assembly-slot")];
     const place = (piece, slot) => {
@@ -81,9 +86,9 @@ export function renderHandsOn(id, { board, hard, correct, say, audio, signal }) 
     slots.forEach(slot => slot.addEventListener("keydown", event => {
       if (event.target === slot && ["Enter", " "].includes(event.key)) { event.preventDefault(); place(selected, slot); }
     }, {signal}));
-    listen(board.querySelector(".check"), () => slots.every((slot, i) => Number(slot.querySelector(".assembly-piece")?.dataset.piece ?? -1) === i) ? finish() : say("もうすこし！ みほんや じゅんばんを みてみよう"));
+    listen(board.querySelector(".check"), () => slots.every((slot, i) => Number(slot.querySelector(".assembly-piece")?.dataset.piece ?? -1) === (descending ? length - 1 - i : i)) ? finish() : say("もうすこし！ みほんや じゅんばんを みてみよう"));
   } else if (id === "trace") {
-    const paths = hard ? [[[15,20],[80,20],[30,50],[80,80],[15,80]], [[15,70],[30,25],[50,70],[70,25],[85,70]]] : [[[15,70],[38,30],[62,70],[85,30]], [[15,30],[38,70],[62,30],[85,70]]];
+    const paths = hard ? [[[15,15],[50,15],[85,15],[85,50],[85,85],[50,85],[15,85],[15,50]], [[15,20],[38,40],[62,20],[85,40],[62,60],[85,80],[38,80],[15,60]]] : [[[15,20],[50,20],[85,20],[85,80],[50,80],[15,80]], [[15,20],[38,65],[50,20],[62,65],[85,20],[85,85]]];
     const points = shuffle(paths)[0];
     board.innerHTML = `<div class="mission-label">ほしを じゅんばんに つなごう</div><svg class="trace-field" viewBox="0 0 100 100" role="img" aria-label="番号順に星をつなぐ道"><polyline class="trace-guide" points="${points.map(p=>p.join(",")).join(" ")}"/><polyline class="trace-ink" points=""/>${points.map(([x,y],i)=>`<g class="trace-node" data-node="${i}"><circle cx="${x}" cy="${y}" r="7"/><text x="${x}" y="${y + 2}">${i+1}</text></g>`).join("")}</svg><p class="hands-hint">1から ゆびを すべらせよう。<br>キーボードでは 下のボタンを じゅんに おせるよ</p><div class="trace-buttons">${points.map((_,i)=>`<button class="secondary" data-point="${i}" aria-label="ほし ${i+1}">${i+1}</button>`).join("")}</div>`;
     const field = board.querySelector(".trace-field");
@@ -105,7 +110,7 @@ export function renderHandsOn(id, { board, hard, correct, say, audio, signal }) 
     for (const type of ["pointerup", "pointercancel"]) field.addEventListener(type, () => { drawing = false; }, {signal});
     board.querySelectorAll("[data-point]").forEach(button => listen(button, () => reach(Number(button.dataset.point))));
   } else if (id === "rhythm") {
-    const sequence = Array.from({length:hard ? 5 : 3}, () => Math.floor(Math.random()*4));
+    const sequence = Array.from({length:hard ? 7 : 5}, () => Math.floor(Math.random()*4));
     board.innerHTML = '<div class="mission-label">ひかる じゅんばんを おぼえよう</div><div class="music-pads">'+["ド", "レ", "ミ", "ソ"].map((note,i)=>`<button class="music-pad" data-pad="${i}" aria-label="${note}"><span>${note}</span>${art(["apple","flower","star","bunny"][i])}</button>`).join("")+'</div><button class="primary listen">おてほんを きく</button>';
     const pads = [...board.querySelectorAll(".music-pad")];
     let ready = false, index = 0;

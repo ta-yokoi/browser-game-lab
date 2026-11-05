@@ -22,7 +22,7 @@ for (const difficulty of ["easy", "hard"]) {
         assert.equal(new Set(question.options).size, question.options.length);
         answerPositions.add(question.options.indexOf(question.answer));
         if (id === "same") {
-          assert.equal(question.options.length, difficulty === "easy" ? 3 : 5);
+          assert.equal(question.options.length, difficulty === "easy" ? 6 : 8);
           question.options.forEach((item) =>
             assert.ok(pictureIds.includes(item)),
           );
@@ -36,7 +36,7 @@ for (const difficulty of ["easy", "hard"]) {
           counts.add(question.answer);
         }
         if (id === "shape") {
-          assert.equal(question.options.length, difficulty === "easy" ? 3 : 4);
+          assert.equal(question.options.length, difficulty === "easy" ? 4 : 6);
           question.options.forEach((item) =>
             assert.ok(shapeIds.includes(item)),
           );
@@ -49,8 +49,14 @@ for (const difficulty of ["easy", "hard"]) {
         if (id === "pattern") {
           const sequence = question.sequence;
           const motifLength = difficulty === "easy" ? 3 : 4;
-          assert.equal(sequence.length, difficulty === "easy" ? 5 : 7);
-          assert.notEqual(sequence[0], sequence[1]);
+          assert.equal(sequence.length, difficulty === "easy" ? 7 : 9);
+          if (difficulty === "easy") {
+            assert.equal(sequence[0], sequence[1]);
+            assert.notEqual(sequence[0], sequence[2]);
+          } else {
+            assert.equal(sequence[0], sequence[2]);
+            assert.equal(new Set(sequence.slice(0, 4)).size, 3);
+          }
           sequence.forEach((item, index) =>
             assert.equal(item, sequence[index % motifLength]),
           );
@@ -58,7 +64,8 @@ for (const difficulty of ["easy", "hard"]) {
             question.answer,
             sequence[sequence.length % motifLength],
           );
-          assert.equal(question.options.length, motifLength);
+          assert.equal(question.options.length, difficulty === "easy" ? 3 : 4);
+          assert.ok(question.options.some(value => !sequence.includes(value)));
         }
       }
     }
@@ -68,7 +75,7 @@ for (const difficulty of ["easy", "hard"]) {
   test(`${difficulty}: memory deck contains exactly two of each picture`, () => {
     for (let trial = 0; trial < 100; trial++) {
       const deck = makeDeck(difficulty, random);
-      assert.equal(deck.length, difficulty === "easy" ? 6 : 8);
+      assert.equal(deck.length, difficulty === "easy" ? 10 : 12);
       for (const id of new Set(deck)) {
         assert.ok(pictureIds.includes(id));
         assert.equal(deck.filter((value) => value === id).length, 2);

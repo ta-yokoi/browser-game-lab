@@ -1,4 +1,4 @@
-import { pictureIds, shapeIds } from "./catalog.js?v=6";
+import { pictureIds, shapeIds } from "./catalog.js?v=7";
 export function shuffle(items, random = Math.random) {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
@@ -11,7 +11,7 @@ export function makeQuestion(id, difficulty = "easy", random = Math.random) {
   const hard = difficulty === "hard";
   const pictures = shuffle(pictureIds, random);
   if (id === "same") {
-    const options = pictures.slice(0, hard ? 5 : 3);
+    const options = pictures.slice(0, hard ? 8 : 6);
     return { answer: options[0], options: shuffle(options, random) };
   }
   if (id === "count") {
@@ -33,7 +33,7 @@ export function makeQuestion(id, difficulty = "easy", random = Math.random) {
     };
   }
   if (id === "shape") {
-    const options = shuffle(shapeIds, random).slice(0, hard ? 4 : 3);
+    const options = shuffle(shapeIds, random).slice(0, hard ? 6 : 4);
     return { answer: options[0], options: shuffle(options, random) };
   }
   if (id === "size") {
@@ -44,13 +44,13 @@ export function makeQuestion(id, difficulty = "easy", random = Math.random) {
     };
   }
   if (id === "pattern") {
-    const motif = pictures.slice(0, hard ? 4 : 3);
-    const length = hard ? 7 : 5;
+    const motif = hard ? [pictures[0], pictures[1], pictures[0], pictures[2]] : [pictures[0], pictures[0], pictures[1]];
+    const length = hard ? 9 : 7;
     const sequence = Array.from({ length }, (_, i) => motif[i % motif.length]);
     return {
       answer: motif[sequence.length % motif.length],
       sequence,
-      options: shuffle(motif, random),
+      options: shuffle(pictures.slice(0, hard ? 4 : 3), random),
     };
   }
   throw new Error(`Unknown question type: ${id}`);
@@ -58,7 +58,7 @@ export function makeQuestion(id, difficulty = "easy", random = Math.random) {
 export function makeDeck(difficulty = "easy", random = Math.random) {
   const selected = shuffle(pictureIds, random).slice(
     0,
-    difficulty === "hard" ? 4 : 3,
+    difficulty === "hard" ? 6 : 5,
   );
   return shuffle([...selected, ...selected], random);
 }
