@@ -11,6 +11,7 @@ export const playGuides = {
 };
 export const playGroups = {
   all: { label: "ぜんぶ", ids: null },
+  free: { label: "じゆうに あそぶ", ids: ["bubbles", "fireworks", "paint"] },
   move: { label: "はこぶ・つくる", ids: ["count", "shape", "size", "puzzle"] },
   think: { label: "みる・かんがえる", ids: ["same", "pattern", "memory"] },
   sense: { label: "なぞる・かなでる", ids: ["trace", "rhythm"] },

@@ -1,4 +1,7 @@
 export const games = [
+  { id: "bubbles", title: "しゃぼんだま", subtitle: "ぽん！と はじける おと", parent: "好きな泡をタップ。失敗も時間制限もありません", tag: "じゆうあそび", color: "blue", pictures: ["circle", "circle"], free: true },
+  { id: "fireworks", title: "ゆびで はなび", subtitle: "よぞらに いろを さかせよう", parent: "触った場所に花火が咲く、自由な夜空", tag: "じゆうあそび", color: "lavender", pictures: ["star", "flower"], free: true },
+  { id: "paint", title: "にじいろ おえかき", subtitle: "すきな いろで かいてみよう", parent: "指で描く自由なおえかき。作品は画像で保存できます", tag: "じゆうあそび", color: "pink", pictures: ["flower", "star"], free: true },
   {
     id: "same",
     title: "おなじもの",

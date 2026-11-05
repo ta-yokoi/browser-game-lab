@@ -1,10 +1,10 @@
-import { mountAudioControls } from "./audio.js?v=8";
-import { games, names } from "./catalog.js?v=8";
-import { art } from "./art.js?v=8";
-import { makeQuestion, makeDeck } from "./questions.js?v=8";
-import { mountStickerAlbum } from "./stickers.js?v=8";
-import { renderHandsOn } from "./hands-on.js?v=8";
-import { playGuides } from "./experience.js?v=8";
+import { mountAudioControls } from "./audio.js?v=9";
+import { games, names } from "./catalog.js?v=9";
+import { art } from "./art.js?v=9";
+import { makeQuestion, makeDeck } from "./questions.js?v=9";
+import { mountStickerAlbum } from "./stickers.js?v=9";
+import { renderHandsOn } from "./hands-on.js?v=9";
+import { playGuides } from "./experience.js?v=9";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");

@@ -1,5 +1,5 @@
-import { games } from "./catalog.js?v=8";
-import { art } from "./art.js?v=8";
+import { games } from "./catalog.js?v=9";
+import { art } from "./art.js?v=9";
 
 const key = "komorebi-stickers-v1";
 const empty = () => ({ version: 1, games: {} });
@@ -51,7 +51,8 @@ export function mountStickerAlbum() {
       const item = album.games[game.id] || { easy: 0, hard: 0, completed: 0 };
       const count = item.easy + item.hard;
       const next = [1, 5, 10, 25, 50, 100].find((goal) => goal > count);
-      return `<section class="album-card ${game.color}"><div class="sticker ${count ? "earned" : ""}">${art(game.pictures[0])}<span>${count ? "✿" : "？"}</span></div><h3>${game.title}</h3><strong>${count}まい</strong><p>やさしい ${item.easy} ／ むずかしい ${item.hard}<br>さいごまで ${item.completed}かい</p><div class="sticker-milestones" aria-label="獲得した記念シール">${[1, 5, 10, 25, 50, 100].map((goal) => `<span class="${count >= goal ? "earned" : ""}" title="${goal}まい記念">${count >= goal ? "✿" : "○"}<small>${goal}</small></span>`).join("")}</div><small>${next ? `つぎの きねんシールまで ${next - count}まい` : "シールの たつじん！"}</small></section>`;
+      const detail = game.free ? `あそんだ きねん ${item.completed}かい` : `やさしい ${item.easy} ／ むずかしい ${item.hard}<br>さいごまで ${item.completed}かい`;
+      return `<section class="album-card ${game.color}"><div class="sticker ${count ? "earned" : ""}">${art(game.pictures[0])}<span>${count ? "✿" : "？"}</span></div><h3>${game.title}</h3><strong>${count}まい</strong><p>${detail}</p><div class="sticker-milestones" aria-label="獲得した記念シール">${[1, 5, 10, 25, 50, 100].map((goal) => `<span class="${count >= goal ? "earned" : ""}" title="${goal}まい記念">${count >= goal ? "✿" : "○"}<small>${goal}</small></span>`).join("")}</div><small>${next ? `つぎの きねんシールまで ${next - count}まい` : "シールの たつじん！"}</small></section>`;
     }).join("")}</div><p class="album-note">${saved ? "この端末・ブラウザに記録します。別の端末とは共有されません。ブラウザのデータを消すと記録も消えます。" : "このブラウザでは保存できません。このページを開いている間だけシールを集められます。"}</p>`;
   }
   button.addEventListener("click", () => { paint(); dialog.showModal(); });

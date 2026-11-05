@@ -1,8 +1,8 @@
-import { mountAudioControls } from "./shared/audio.js?v=8";
-import { games } from "./shared/catalog.js?v=8";
-import { art } from "./shared/art.js?v=8";
-import { mountStickerAlbum } from "./shared/stickers.js?v=8";
-import { playGroups } from "./shared/experience.js?v=8";
+import { mountAudioControls } from "./shared/audio.js?v=9";
+import { games } from "./shared/catalog.js?v=9";
+import { art } from "./shared/art.js?v=9";
+import { mountStickerAlbum } from "./shared/stickers.js?v=9";
+import { playGroups } from "./shared/experience.js?v=9";
 document.querySelector("#game-list").innerHTML = games
   .map(
     (game, i) => `

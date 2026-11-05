@@ -1,5 +1,5 @@
-import { art } from "./art.js?v=8";
-import { shuffle } from "./questions.js?v=8";
+import { art } from "./art.js?v=9";
+import { shuffle } from "./questions.js?v=9";
 
 // Pointer Events share one interaction model across mouse, pen and touch.
 // Selecting a piece, then a destination, also works with keyboard buttons.
