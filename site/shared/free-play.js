@@ -1,6 +1,6 @@
-import { games } from "./catalog.js?v=9";
-import { mountAudioControls } from "./audio.js?v=9";
-import { mountStickerAlbum } from "./stickers.js?v=9";
+import { games } from "./catalog.js?v=10";
+import { mountAudioControls } from "./audio.js?v=10";
+import { mountStickerAlbum } from "./stickers.js?v=10";
 
 const game = games.find(item => item.id === document.body.dataset.game);
 const audio = mountAudioControls();

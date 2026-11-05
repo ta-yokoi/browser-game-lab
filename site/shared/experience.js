@@ -1,4 +1,5 @@
 export const playGuides = {
+  detective: ["ふうとうを おして しらべよう", "てがかりに あう おうちを さがそう", "かぎを おうちに はこぼう"],
   same: ["みほんを よくみよう", "おなじ えを さがそう", "みつけたら おしてね"],
   count: ["おねがいの かずを みよう", "くだものを かごに はこぼう", "かぞえて「できた！」"],
   shape: ["かたちを つかもう", "おなじ おうちに はこぼう", "ぴったり あわせよう"],
@@ -13,6 +14,6 @@ export const playGroups = {
   all: { label: "ぜんぶ", ids: null },
   free: { label: "じゆうに あそぶ", ids: ["bubbles", "fireworks", "paint"] },
   move: { label: "はこぶ・つくる", ids: ["count", "shape", "size", "puzzle"] },
-  think: { label: "みる・かんがえる", ids: ["same", "pattern", "memory"] },
+  think: { label: "みる・かんがえる", ids: ["detective", "same", "pattern", "memory"] },
   sense: { label: "なぞる・かなでる", ids: ["trace", "rhythm"] },
 };

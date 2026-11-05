@@ -1,10 +1,11 @@
-import { mountAudioControls } from "./audio.js?v=9";
-import { games, names } from "./catalog.js?v=9";
-import { art } from "./art.js?v=9";
-import { makeQuestion, makeDeck } from "./questions.js?v=9";
-import { mountStickerAlbum } from "./stickers.js?v=9";
-import { renderHandsOn } from "./hands-on.js?v=9";
-import { playGuides } from "./experience.js?v=9";
+import { mountAudioControls } from "./audio.js?v=10";
+import { games, names } from "./catalog.js?v=10";
+import { art } from "./art.js?v=10";
+import { makeQuestion, makeDeck } from "./questions.js?v=10";
+import { mountStickerAlbum } from "./stickers.js?v=10";
+import { renderHandsOn } from "./hands-on.js?v=10";
+import { playGuides } from "./experience.js?v=10";
+import { renderDetective } from "./detective.js?v=10";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");
@@ -36,6 +37,7 @@ correctMark.innerHTML =
   '<svg viewBox="0 0 240 240" focusable="false"><circle cx="120" cy="120" r="100" fill="none" stroke="#df353c" stroke-width="18"/></svg>';
 document.body.append(correctMark);
 const descriptions = {
+  detective: "じっくり：2つの手がかりと4つの家。ちょうせん：3つの手がかりと8つの家。公式作品のキャラクターやストーリーは登場しない、オリジナルの非公式ファンゲームです。",
   trace: "やさしい：6つの星。ちょっとむずかしい：8つの星を順番になぞります。",
   puzzle: "やさしい：6ピース。ちょっとむずかしい：9ピースの絵を組み立てます。",
   rhythm: "やさしい：5音。ちょっとむずかしい：7音の順番を再現します。",
@@ -146,6 +148,12 @@ function showQuestion(moveFocus = false) {
   next.hidden = true;
   say("");
   instruction.textContent = game.instruction;
+  if (game.id === "detective") {
+    updateProgress();
+    renderDetective({board, hard: difficulty === "hard", correct, say, signal: interaction.signal});
+    if(moveFocus) board.querySelector("button")?.focus({preventScroll:true});
+    return;
+  }
   if (["count", "size", "trace", "puzzle", "rhythm"].includes(game.id)) {
     updateProgress();
     renderHandsOn(game.id, { board, hard: difficulty === "hard", correct, say, audio, signal: interaction.signal });
