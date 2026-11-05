@@ -1,9 +1,10 @@
-import { mountAudioControls } from "./audio.js?v=7";
-import { games, names } from "./catalog.js?v=7";
-import { art } from "./art.js?v=7";
-import { makeQuestion, makeDeck } from "./questions.js?v=7";
-import { mountStickerAlbum } from "./stickers.js?v=7";
-import { renderHandsOn } from "./hands-on.js?v=7";
+import { mountAudioControls } from "./audio.js?v=8";
+import { games, names } from "./catalog.js?v=8";
+import { art } from "./art.js?v=8";
+import { makeQuestion, makeDeck } from "./questions.js?v=8";
+import { mountStickerAlbum } from "./stickers.js?v=8";
+import { renderHandsOn } from "./hands-on.js?v=8";
+import { playGuides } from "./experience.js?v=8";
 
 const game = games.find((item) => item.id === document.body.dataset.game);
 const board = document.querySelector("#board");
@@ -90,6 +91,16 @@ function showResult() {
   say("");
   board.innerHTML = `<div class="result">${art("bunny")}<div class="flowers" aria-hidden="true">✿ ✿ ✿</div><h2 tabindex="-1">できたね！</h2><p>じょうずに みつけたね。<br>もういっかい あそぶ？</p><div class="result-actions"><button type="button" id="replay" class="primary">もういっかい</button><a class="secondary" href="../../index.html">おうちへ</a></div></div>`;
   board.querySelector("#replay").addEventListener("click", () => reset(true));
+  const earned = game.id === "memory" ? deck.length / 2 : 5;
+  const summary = document.createElement("div");
+  summary.className = "session-reward";
+  summary.innerHTML = `<span class="reward-seal" aria-hidden="true">✿</span><strong>シール ${earned}まい ゲット！</strong><p>${game.title}を さいごまで あそべたね</p>`;
+  board.querySelector(".result-actions").before(summary);
+  const albumButton = document.createElement("button");
+  albumButton.className = "secondary";
+  albumButton.textContent = "シールを みる";
+  albumButton.addEventListener("click", () => document.querySelector(".album-button").click());
+  board.querySelector(".result-actions").append(albumButton);
   board.querySelector("h2").focus();
 }
 function correct(button) {
@@ -336,4 +347,21 @@ window.addEventListener("pagehide", () => {
 window.addEventListener("pageshow", (event) => {
   if (event.persisted) reset();
 });
-reset();
+function showWelcome() {
+  next.hidden = true;
+  instruction.textContent = "じゅんびが できたら はじめよう";
+  progress.innerHTML = '<span class="session-caption">じかんせいげん なし · じぶんの ペースで</span>';
+  board.innerHTML = `<div class="welcome-screen"><div class="welcome-art ${game.color}">${game.pictures.map(id => art(id)).join("")}</div><p class="eyebrow">あそびかた</p><h2>${game.subtitle}</h2><ol class="play-steps">${playGuides[game.id].map(step => `<li>${step}</li>`).join("")}</ol><div class="level-choice" role="group" aria-label="むずかしさ"><button data-level="easy" aria-pressed="true"><span>✦</span>じっくり<small>きほんの チャレンジ</small></button><button data-level="hard" aria-pressed="false"><span>✦✦</span>ちょうせん<small>もっと かんがえる</small></button></div><button class="primary start-session">あそびを はじめる <span aria-hidden="true">→</span></button><p class="board-caption">できたら シールが もらえるよ</p></div>`;
+  board.querySelectorAll("[data-level]").forEach(button => button.addEventListener("click", () => {
+    difficulty = button.dataset.level;
+    document.querySelector(`[name="difficulty"][value="${difficulty}"]`).checked = true;
+    board.querySelectorAll("[data-level]").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+  }));
+  board.querySelector(".start-session").addEventListener("click", () => reset(true));
+}
+const guide = document.createElement("details");
+guide.className = "quick-guide";
+guide.innerHTML = `<summary>あそびかたを みる</summary><ol>${playGuides[game.id].map(step => `<li>${step}</li>`).join("")}</ol><p>つかみにくいときは、えを おしてから おきばを おしてね。</p>`;
+board.after(guide);
+if (!["count", "shape", "size", "puzzle"].includes(game.id)) guide.querySelector("p").remove();
+showWelcome();

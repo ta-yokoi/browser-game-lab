@@ -1,4 +1,4 @@
-import { pictureIds, shapeIds } from "./catalog.js?v=7";
+import { pictureIds, shapeIds } from "./catalog.js?v=8";
 export function shuffle(items, random = Math.random) {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {

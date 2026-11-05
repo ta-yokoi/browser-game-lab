@@ -95,6 +95,28 @@ html { scroll-behavior: smooth; }
  .page .hero { grid-template-columns: 1fr; padding: 30px 0 42px; gap: 32px; }.desktop-break { display: initial; }.page .hero h1 { font-size: 44px; }.page .hero-art { height: 350px; max-width: 420px; }.page .hero-bunny { width: 200px; height: 200px; left: calc(50% - 100px); bottom: 55px; }.page .hero-flower { width: 80px; height: 80px; right: 10px; }.page .sun { top: 65px; right: 42px; width: 40px; height: 40px; }.scene-label { top: 25px; }.chip-one { top: 100px; font-size: 9px; }.page .card-art { height: 142px; }.page .card-body { padding: 16px 12px; }.page .card-body h3 { font-size: 16px; }.page .section-heading h2 { font-size: 20px; }.page .section-heading > span { font-size: 8px; }.fruit-shelf { padding: 12px; gap: 8px; }.fruit-piece .picture { width: 38px; height: 38px; }.piece-tray { gap: 8px; padding: 10px; }.size-piece { width: 64px; height: 100px; }.assembly-slot { min-height: 106px; }.size-piece .picture { width: calc(var(--piece-size) * .6); height: calc(var(--piece-size) * .6); }.assembly { gap: 5px; }.picture-piece { width: 74px; height: 74px; }.assembly-slot .picture-piece { width: 100%; height: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .game-card.in-view, .page .hero-bunny, .page .hero-flower, .page .hero-apple, .floating-leaf, .game-card:hover .card-art .picture { animation: none; } }
+.game-filters { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 26px; }
+.game-filters button { border: 1px solid #d6ddce; border-radius: 40px; background: #fffdf7; color: #52654d; padding: 12px 20px; min-height: 48px; font-size: 13px; }
+.game-filters button[aria-pressed="true"] { color: white; background: #315c49; border-color: #315c49; box-shadow: 0 5px 14px #315c4920; }
+.welcome-screen { width: min(100%, 560px); text-align: center; padding: 12px 0; }
+.welcome-art { display: flex; justify-content: center; align-items: center; gap: 4px; width: 210px; height: 135px; margin: 0 auto 24px; border-radius: 65px 65px 45px 45px; background: var(--tint); box-shadow: inset 0 0 0 7px #ffffff50; }
+.welcome-art .picture { width: 65px; height: 65px; }
+.welcome-screen h2 { font-size: clamp(20px, 4vw, 27px); line-height: 1.6; margin: 10px 0 22px; }
+.play-steps { counter-reset: steps; padding: 0; list-style: none; margin: 0 auto 24px; width: fit-content; text-align: left; }
+.play-steps li { counter-increment: steps; padding: 9px 0; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.play-steps li::before { content: counter(steps); display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 28px; background: #e6edda; color: #42684d; border-radius: 50%; font-weight: 700; }
+.level-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 22px 0; }
+.level-choice button { padding: 16px 10px; border: 2px solid #e0e3d6; background: #fffdf8; color: #465945; border-radius: 18px; font-size: 17px; font-weight: 700; }
+.level-choice button[aria-pressed="true"] { border-color: #668657; background: #edf3e5; box-shadow: 0 4px 0 #d0ddc2; }
+.level-choice small { display: block; font-size: 10px; font-weight: 400; margin-top: 7px; }.level-choice span { display: block; color: #b58b3f; margin-bottom: 6px; }
+.welcome-screen .start-session { width: 100%; max-width: 380px; margin: 4px auto 18px; }
+.quick-guide { margin: 16px auto; color: #65745b; width: fit-content; max-width: 100%; font-size: 12px; line-height: 2; }.quick-guide summary { cursor: pointer; padding: 10px 16px; text-align: center; }.quick-guide ol { padding-left: 28px; }.quick-guide p { max-width: 330px; }
+.session-caption { font-size: 11px; color: #78836d; letter-spacing: .06em; }
+.session-reward { padding: 20px; margin: 25px auto; max-width: 380px; border-radius: 22px; background: #f6edcc; border: 1px solid #e2d6a9; }
+.reward-seal { display: block; font-size: 52px; color: #bf8737; text-shadow: 0 3px white; animation: reward-arrive .6s ease-out; }.session-reward strong { display: block; font-size: 22px; color: #7a622f; }.session-reward p { font-size: 12px; }
+@keyframes reward-arrive { from { transform: scale(.5) rotate(-25deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@media (max-width: 560px) { .game-filters { gap: 7px; }.game-filters button { padding: 10px 13px; font-size: 11px; }.play-steps li { font-size: 12px; }.welcome-screen { padding: 5px; } }
+@media (prefers-reduced-motion: reduce) { .reward-seal { animation: none; } }
 :root {
   --paper: #faf7ef;
   --ink: #3f4c43;

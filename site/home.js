@@ -1,7 +1,8 @@
-import { mountAudioControls } from "./shared/audio.js?v=7";
-import { games } from "./shared/catalog.js?v=7";
-import { art } from "./shared/art.js?v=7";
-import { mountStickerAlbum } from "./shared/stickers.js?v=7";
+import { mountAudioControls } from "./shared/audio.js?v=8";
+import { games } from "./shared/catalog.js?v=8";
+import { art } from "./shared/art.js?v=8";
+import { mountStickerAlbum } from "./shared/stickers.js?v=8";
+import { playGroups } from "./shared/experience.js?v=8";
 document.querySelector("#game-list").innerHTML = games
   .map(
     (game, i) => `
@@ -14,6 +15,20 @@ document.querySelector("#game-list").innerHTML = games
 
 mountAudioControls();
 mountStickerAlbum();
+
+const filters = document.createElement("div");
+filters.className = "game-filters";
+filters.setAttribute("role", "group");
+filters.setAttribute("aria-label", "あそびの しゅるい");
+filters.innerHTML = Object.entries(playGroups).map(([id, group]) => `<button type="button" data-group="${id}" aria-pressed="${id === "all"}">${group.label}</button>`).join("");
+document.querySelector("#game-list").before(filters);
+filters.addEventListener("click", event => {
+  const button = event.target.closest("[data-group]");
+  if (!button) return;
+  const ids = playGroups[button.dataset.group].ids;
+  filters.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+  document.querySelectorAll(".game-card").forEach((card, index) => { card.hidden = ids !== null && !ids.includes(games[index].id); });
+});
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
